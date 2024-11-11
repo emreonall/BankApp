@@ -2,6 +2,8 @@ using BankApp.Database.Context;
 using BankApp.Database.Repositories;
 using BankApp.Database.Repositories.BankRepo;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,7 @@ builder.Services.AddControllersWithViews();
 // options.UseSqlServer("name=ConnectionStrings:SqlConn"));
 
 builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());  //AppDomain.CurrentDomain.GetAssemblies()
 
 builder.Services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
 builder.Services.AddScoped<IBankRepository,BankRepository>();

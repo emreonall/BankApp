@@ -21,9 +21,11 @@ namespace BankApp.Database.Context
             //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(), t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>) &&
             //    typeof(BaseEntity).IsAssignableFrom(i.GenericTypeArguments[0])));
 
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            base.OnModelCreating(modelBuilder);
+           
         }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Bank> Banks { get; set; }

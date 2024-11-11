@@ -37,7 +37,7 @@ namespace BankApp.Database.Repositories
                 await _dbSet.AddAsync(entity);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
         }
 

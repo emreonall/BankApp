@@ -19,7 +19,10 @@ namespace BankApp.Database.Repositories
         public async Task<T> GetByIdAsync(int id)
         {
             var result = await _dbSet.FindAsync(id);
-
+            if (result == null)
+            {
+                throw new Exception($"{id} id'li kayıt bulunamadı.");
+            }
             return result;
         }
 

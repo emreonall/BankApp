@@ -12,7 +12,7 @@ namespace BankApp.Database.Context
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("name=ConnectionStrings:SqlConn");
+            optionsBuilder.UseSqlServer("name=ConnectionStrings:SqlConnWork");
             base.OnConfiguring(optionsBuilder); 
 
         }

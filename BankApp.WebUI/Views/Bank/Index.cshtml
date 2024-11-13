@@ -1,4 +1,5 @@
-﻿@model List<Bank>
+﻿@using BankApp.Database.DTOs.BankDtos
+@model List<Bank>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -34,7 +35,7 @@
                             <img src=@m.IconUrl />
                         </td>
                         <td class="vertical-align:middle row-cols-sm">@m.Name</td>
-                        <td class="vertical-align:middle row-cols-sm">@m.CreatedDate</td>
+                        <td class="vertical-align:middle row-cols-sm">@m.</td>
                         <td>
                             <div class="btn-group-sm">
                                 <button class="btn btn-sm btn-outline-warning">
@@ -42,7 +43,6 @@
                                 </button>
                                 <button class="btn btn-sm btn-outline-danger align-middle">
                                     <i class="bi bi-trash3"></i>
-                                    <div class="tooltip">Kayıt sil</div>
                                 </button>
                             </div>
                         </td>
@@ -51,9 +51,7 @@
             </tbody>
 
         </table>
-
     </div>
-
 </div>
 <br />
 

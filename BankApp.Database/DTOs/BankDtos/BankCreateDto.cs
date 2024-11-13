@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BankApp.Application.DTOs.BankDtos
+namespace BankApp.Database.DTOs.BankDtos
 {
     public class BankCreateDto
     {

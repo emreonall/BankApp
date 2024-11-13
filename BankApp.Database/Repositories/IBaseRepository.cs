@@ -7,7 +7,7 @@ namespace BankApp.Database.Repositories
     {
         Task<T> GetByIdAsync(int id);
         IQueryable<T> GetAll();
-        List<T> Hepsi();
+        Task<List<T>> Hepsi();
         IQueryable<T> Queryable(Expression<Func<T,bool>> predicate);
         Task AddAsync(T entity);
         Task  UpdateAsync(int id, T entity);

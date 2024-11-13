@@ -66,9 +66,10 @@ namespace BankApp.Database.Repositories
             return result;
         }
 
-        public List<T> Hepsi()
+        public async Task<List<T>> Hepsi()
         {
-            return _dbSet.ToList();
+            return await _dbSet.ToListAsync();
         }
+
     }
 }

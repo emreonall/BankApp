@@ -20,7 +20,10 @@ namespace BankApp.Database.MapProfiles.Bank
 
             CreateMap<BankApp.Domain.Entities.Bank, BankCreateDto>();
             CreateMap<BankCreateDto, BankApp.Domain.Entities.Bank>();
-            CreateMap<BankApp.Domain.Entities.Bank, BankListDto>().ReverseMap();
+
+              CreateMap<BankApp.Domain.Entities.Bank, BankListDto>().ReverseMap().ForMember(dest=>dest.UpdatedDate, opt=>opt.Ignore()).ForMember(dest=>dest.Transactions, opt=>opt.Ignore());
+
+            //CreateMap<BankApp.Domain.Entities.Bank, BankListDto>().ReverseMap();
         }
     }
 }

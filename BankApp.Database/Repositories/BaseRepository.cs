@@ -8,7 +8,7 @@ namespace BankApp.Database.Repositories
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         private readonly AppDbContext _context;
-        private DbSet<T> _dbSet;// => _context.Set<T>();
+        private readonly DbSet<T> _dbSet;
 
         public BaseRepository(AppDbContext context)
         {
@@ -28,7 +28,7 @@ namespace BankApp.Database.Repositories
 
         public IQueryable<T> Queryable(Expression<Func<T, bool>> predicate)
         {
-            return (IQueryable<T>)_dbSet.Where(predicate).AsQueryable().AsNoTracking().ToList();
+            return _dbSet.Where(predicate).AsNoTracking();
 
 
         }
@@ -40,7 +40,7 @@ namespace BankApp.Database.Repositories
                 await _dbSet.AddAsync(entity);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception) { }
+            catch (Exception ex) { }
 
         }
 

@@ -17,24 +17,38 @@ namespace BankApp.WebUI.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult>  Index()
+        public async Task<IActionResult> Index()
         {
             Bank banka = new()
             {
                 Name = "Akbank",
                 IconUrl = null,
-                
+
             };
 
             //var bank = new Bank {Name = "Test Bank" ,IconUrl=null};
             //var dto = _mapper.Map<BankListDto>(bank);
 
-          //  _repo.AddAsync(_mapper.Map<Bank>(banka));
-        ///  _repo.AddAsync(banka);
+            //  _repo.AddAsync(_mapper.Map<Bank>(banka));
+         //   await _repo.AddAsync(banka);
             //var model= _repo.GetAll();
 
-          //  List<BankListDto> model = _mapper.Map<List<BankListDto>>(_repo.Hepsi());
-           List<Bank> model = await _repo.Hepsi();
+            // List<Bank> banks= await _repo.Hepsi();
+
+            var singleBank = (await _repo.Hepsi()).FirstOrDefault();
+            var model = _mapper.Map<BankListDto>(singleBank);
+
+            try
+            {
+                List<BankListDto> models = _mapper.Map<List<BankListDto>>(singleBank);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
+          //  List<Bank> model = await _repo.Hepsi();
             return View(model);
         }
     }

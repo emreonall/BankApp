@@ -10,15 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//builder.Services.AddDbContext<AppDbContext>(options=> 
+//builder.Services.AddDbContext<AppDbContext>(options =>
 // options.UseSqlServer("name=ConnectionStrings:SqlConn"));
 
-builder.Services.AddDbContext<AppDbContext>();
+ builder.Services.AddDbContext<AppDbContext>();
 //builder.Services.AddAutoMapper(typeof(BankApp.Database.MapProfiles).Assembly);  //
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-builder.Services.AddTransient(typeof(IBaseRepository<>),typeof(BaseRepository<>));
-builder.Services.AddTransient<IBankRepository,BankRepository>();
+builder.Services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
+builder.Services.AddScoped<IBankRepository,BankRepository>();
 
 var app = builder.Build();
 

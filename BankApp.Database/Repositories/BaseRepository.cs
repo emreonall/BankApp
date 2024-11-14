@@ -53,10 +53,11 @@ namespace BankApp.Database.Repositories
         public async Task DeleteAsync(int id)
         {
             var entity = await GetByIdAsync(id);
-
-            _dbSet.Remove(entity);
-            await _context.SaveChangesAsync();
-
+            if (entity!=null)
+            {
+                _dbSet.Remove(entity);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public IQueryable<T> GetAll()

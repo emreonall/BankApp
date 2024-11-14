@@ -14,21 +14,16 @@ namespace BankApp.Database.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("name=ConnectionStrings:SqlConn");
+                optionsBuilder.UseSqlServer("name=ConnectionStrings:SqlConnWork");
             }
             base.OnConfiguring(optionsBuilder); 
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly(), t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEntityTypeConfiguration<>) &&
-            //    typeof(BaseEntity).IsAssignableFrom(i.GenericTypeArguments[0])));
-
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-           
         }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Bank> Banks { get; set; }

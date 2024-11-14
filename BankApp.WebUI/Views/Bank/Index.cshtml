@@ -1,5 +1,5 @@
-﻿@using BankApp.Database.DTOs.BankDtos
-@model List<BankListDto>
+﻿@using System.IO
+@model List<Bank>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,9 +9,9 @@
     <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
         <h6 class="card-title mb-0">Bankalar</h6>
 
-        <button class="btn btn-secondary btn-sm">
+        <a class="btn btn-secondary btn-sm" asp-action="Create">
             <i class="bi bi-plus-circle me-2"></i> Yeni
-        </button>
+        </a>
 
 
     </div>
@@ -32,18 +32,25 @@
                     <tr>
                         <td class="vertical-align:middle small">@m.Id</td>
                         <td>
-                            <img src=@m.IconUrl />
+                            @{
+                                var fileName = System.IO.Path.GetFileName(m.IconUrl);
+                            }
+                            <img src="~/uploads/@fileName" alt="Bank Icon" style="width: 50px; height: auto;" />
                         </td>
+                        <td class="vertical-align:middle row-cols-sm"></td>
                         <td class="vertical-align:middle row-cols-sm">@m.Name</td>
-                        <td class="vertical-align:middle row-cols-sm">@m.</td>
+                        <td class="vertical-align:middle row-cols-sm">@m.CreatedDate</td>
                         <td>
                             <div class="btn-group-sm">
-                                <button class="btn btn-sm btn-outline-warning">
+                                <a class="btn btn-sm btn-outline-warning">
                                     <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger align-middle">
-                                    <i class="bi bi-trash3"></i>
-                                </button>
+                                </a>
+                                <form asp-action="Delete" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@m.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger align-middle" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz?');">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>

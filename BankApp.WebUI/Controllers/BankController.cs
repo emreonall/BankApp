@@ -3,6 +3,7 @@ using BankApp.Database.DTOs.BankDtos;
 using BankApp.Database.Repositories.BankRepo;
 using BankApp.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankApp.WebUI.Controllers
 {
@@ -10,11 +11,13 @@ namespace BankApp.WebUI.Controllers
     {
         private readonly IBankRepository _repo;
         private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public BankController(IBankRepository repo, IMapper mapper)
+        public BankController(IBankRepository repo, IMapper mapper, IWebHostEnvironment hostEnvironment)
         {
             _repo = repo;
             _mapper = mapper;
+            _hostEnvironment = hostEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -26,30 +29,49 @@ namespace BankApp.WebUI.Controllers
 
             };
 
-            //var bank = new Bank {Name = "Test Bank" ,IconUrl=null};
-            //var dto = _mapper.Map<BankListDto>(bank);
-
-            //  _repo.AddAsync(_mapper.Map<Bank>(banka));
-         //   await _repo.AddAsync(banka);
-            //var model= _repo.GetAll();
-
-            // List<Bank> banks= await _repo.Hepsi();
-
-            var singleBank = (await _repo.Hepsi()).FirstOrDefault();
-            var model = _mapper.Map<BankListDto>(singleBank);
-
-            try
-            {
-                List<BankListDto> models = _mapper.Map<List<BankListDto>>(singleBank);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-            
-          //  List<Bank> model = await _repo.Hepsi();
+            List<Bank> model = await _repo.Hepsi();
             return View(model);
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Name")] Bank bank, IFormFile iconFile)
+        {
+            if (ModelState.IsValid)
+            {
+                if (iconFile != null && iconFile.Length > 0)
+                {
+                    // Dosya yolu kaydetme işlemi
+                    string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
+                    Directory.CreateDirectory(uploadsFolder); // Klasör yoksa oluştur
+                    string filePath = Path.Combine(uploadsFolder, iconFile.FileName);
+
+                    // Dosyayı kaydet
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await iconFile.CopyToAsync(fileStream);
+                    }
+
+                    // Tam yolu IconUrl alanına atama
+                    bank.IconUrl = filePath;
+                }
+                await _repo.AddAsync(bank);
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(bank);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _repo.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

@@ -1,0 +1,49 @@
+﻿@model Bank
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
+        <h6>Yeni Banka Yarat</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" style="width:80px">Banka Adı</span>
+                    <input asp-for="Name" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    @* <span class="input-group-text" style="width:150px">Banka Logo Dosyası</span> *@
+                    <input asp-for="IconUrl" class="form-control" type="file" name="iconFile" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center shadow-sm">
+                <div class="form-group">
+                    <div class="btn-group">
+                        <input type="submit" value="Kaydet" class="btn btn-primary" />
+                        <a class="btn btn-secondary" asp-action="Index">Vazgeç</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

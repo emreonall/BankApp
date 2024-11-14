@@ -22,13 +22,6 @@ namespace BankApp.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            Bank banka = new()
-            {
-                Name = "Akbank",
-                IconUrl = null,
-
-            };
-
             List<Bank> model = await _repo.Hepsi();
             return View(model);
         }

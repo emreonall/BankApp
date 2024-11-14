@@ -65,6 +65,72 @@ namespace BankApp.WebUI.Controllers
             await _repo.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> Edit(int id)
+        {
+            var bank = await _repo.GetByIdAsync(id);
+            if (bank == null)
+            {
+                return NotFound();
+            }
+            return View(bank);
+        }
 
+        // POST: Bank/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,IconUrl")] Bank bank, IFormFile? iconFile)
+        {
+            if (id != bank.Id)
+            {
+                return BadRequest();
+            }
+            var existingBank = await _repo.GetByIdAsync(id);
+            if (existingBank == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    existingBank.Name = bank.Name;
+
+                    // Eğer yeni bir dosya yüklenmişse, eski değeri güncelle
+                    if (iconFile != null && iconFile.Length > 0)
+                    {
+                        // Dosya yolu ayarlama
+                        string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "uploads");
+                        Directory.CreateDirectory(uploadsFolder);
+                        string filePath = Path.Combine(uploadsFolder, iconFile.FileName);
+
+                        // Dosyayı kaydetme
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await iconFile.CopyToAsync(fileStream);
+                        }
+
+                        // Tam yolu IconUrl alanına atama
+                        existingBank.IconUrl = filePath;
+                    }
+
+                    await _repo.UpdateAsync(id,existingBank);
+                   
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //if (!_context.Banks.Any(e => e.Id == bank.Id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(bank);
+        }
     }
 }

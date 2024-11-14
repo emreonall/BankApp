@@ -5,11 +5,11 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.WebUI", "BankApp.WebUI\BankApp.WebUI.csproj", "{507E14E8-ED58-4EF0-BD56-592F9251B3B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Domain", "BankApp.Domain\BankApp.Domain.csproj", "{76E410B1-AA6D-484C-B74E-7CECFAFF30CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Domain", "BankApp.Domain\BankApp.Domain.csproj", "{76E410B1-AA6D-484C-B74E-7CECFAFF30CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Application", "BankApp.Application\BankApp.Application.csproj", "{7B55D499-A9F2-4C4C-A43C-42E16EAC7F8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Application", "BankApp.Application\BankApp.Application.csproj", "{7B55D499-A9F2-4C4C-A43C-42E16EAC7F8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankApp.Database", "BankApp.Database\BankApp.Database.csproj", "{57001CF7-2293-4829-9D6F-BADB669069A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankApp.Database", "BankApp.Database\BankApp.Database.csproj", "{57001CF7-2293-4829-9D6F-BADB669069A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

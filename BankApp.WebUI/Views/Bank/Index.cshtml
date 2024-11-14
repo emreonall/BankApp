@@ -4,61 +4,66 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<div class="container-md">
+    <div class="card shadow-sm mx-auto" style="max-width:600px">
+        <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
+            <h6 class="card-title mb-0">Bankalar</h6>
 
-<div class="card shadow-sm" style="max-width:600px">
-    <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
-        <h6 class="card-title mb-0">Bankalar</h6>
-
-        <a class="btn btn-secondary btn-sm" asp-action="Create">
-            <i class="bi bi-plus-circle me-2"></i> Yeni
-        </a>
+            <a class="btn btn-secondary btn-sm" asp-action="Create">
+                <i class="bi bi-plus-circle me-2"></i> Yeni
+            </a>
 
 
-    </div>
-    <div class="card-body">
-        <table class="table table-responsive-sm w-100">
-            <thead>
-                <tr>
-                    <th style="font-size:x-small">#</th>
-                    <th></th>
-                    <th style="font-size:x-small"> Banka Adı </th>
-                    <th style="font-size:x-small">Yaratma Tarihi</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var m in Model)
-                {
+        </div>
+        <div class="card-body">
+            <table class="table table-responsive-sm w-100">
+                <thead>
                     <tr>
-                        <td class="vertical-align:middle small">@m.Id</td>
-                        <td>
-                            @{
-                                var fileName = System.IO.Path.GetFileName(m.IconUrl);
-                            }
-                            <img src="~/uploads/@fileName" alt="Bank Icon" style="width: 50px; height: auto;" />
-                        </td>
-                        <td class="vertical-align:middle row-cols-sm"></td>
-                        <td class="vertical-align:middle row-cols-sm">@m.Name</td>
-                        <td class="vertical-align:middle row-cols-sm">@m.CreatedDate</td>
-                        <td>
-                            <div class="btn-group-sm">
-                                <a class="btn btn-sm btn-outline-warning">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <form asp-action="Delete" method="post" style="display:inline;">
-                                    <input type="hidden" name="id" value="@m.Id" />
-                                    <button type="submit" class="btn btn-sm btn-outline-danger align-middle" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz?');">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+                        <th style="font-size:x-small">#</th>
+                        <th></th>
+                        <th style="font-size:x-small"> Banka Adı </th>
+                        <th style="font-size:x-small">Yaratma Tarihi</th>
                     </tr>
-                }
-            </tbody>
+                </thead>
+                <tbody>
 
-        </table>
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td class="vertical-align:middle small">@m.Id</td>
+                            <td>
+                                @{
+                                    var fileName = System.IO.Path.GetFileName(m.IconUrl);
+                                }
+                                <img src="~/uploads/@fileName" alt="Bank Icon" style="width: 50px; height: auto;" />
+                            </td>
+                          
+                            <td class="vertical-align:middle row-cols-sm">@m.Name</td>
+                            <td class="vertical-align:middle row-cols-sm">@m.CreatedDate</td>
+                            <td>
+                                <div class="btn-group-sm">
+                                   
+                                    <a class="btn btn-sm btn-outline-warning" asp-action="Edit" asp-route-id="@m.Id">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <form asp-action="Delete" method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="@m.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger align-middle" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz?');">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
     </div>
+
 </div>
 <br />
+
+
 

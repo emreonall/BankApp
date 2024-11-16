@@ -1,0 +1,6 @@
+@BankApp.Api_HostAddress = http://localhost:5182
+
+GET {{BankApp.Api_HostAddress}}/bank/
+Accept: application/json
+
+###

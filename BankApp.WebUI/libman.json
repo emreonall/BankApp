@@ -10,5 +10,6 @@
       "library": "bootstrap-icons@1.11.3",
       "destination": "wwwroot/lib/bootstrap-icons/"
     }
+
   ]
 }

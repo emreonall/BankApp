@@ -3,8 +3,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <div class="card shadow-sm mx-auto">
     <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
         <h6>Yeni Banka Yarat</h6>
@@ -13,7 +11,7 @@
         <form asp-action="Create" method="post" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" style="width:80px">Banka Adı</span>
+                    <span class="input-group-text" style="width:85px">Banka Adı</span>
                     <input asp-for="Name" class="form-control" autocomplete="off" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>

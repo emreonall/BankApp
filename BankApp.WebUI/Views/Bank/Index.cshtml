@@ -2,10 +2,10 @@
 @model List<Bank>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
 }
+
+
+
 
 <div class="container-md">
     <div class="card shadow-sm mx-auto" style="max-width:600px">
@@ -19,15 +19,13 @@
 
         </div>
         <div class="card-body">
-            <table  class="hover" id="myTable">
+            <table id="bankTable" class="table table-responsive-sm w-100">
                 <thead>
                     <tr>
                         <th style="font-size:x-small">#</th>
                         <th></th>
                         <th style="font-size:x-small"> Banka Adı </th>
                         <th style="font-size:x-small">Yaratma Tarihi</th>
-                        <th></th>
-                  
                     </tr>
                 </thead>
                 <tbody>
@@ -42,14 +40,12 @@
                                 }
                                 <img src="~/uploads/@fileName" alt="Bank Icon" style="width: 50px; height: auto;" />
                             </td>
-
+                          
                             <td class="vertical-align:middle row-cols-sm">@m.Name</td>
                             <td class="vertical-align:middle row-cols-sm">@m.CreatedDate</td>
-                          
-                           
                             <td>
                                 <div class="btn-group-sm">
-
+                                   
                                     <a class="btn btn-sm btn-outline-warning" asp-action="Edit" asp-route-id="@m.Id">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
@@ -64,39 +60,50 @@
                         </tr>
                     }
                 </tbody>
+
             </table>
         </div>
     </div>
+
 </div>
-
-
-<div id="example-table"></div>
 <br />
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
- <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
- 
+
+<table id="example" class="display">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Yaş</th>
+            <th>Şehir</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Ahmet</td>
+            <td>30</td>
+            <td>İstanbul</td>
+        </tr>
+        <tr>
+            <td>Ayşe</td>
+            <td>25</td>
+            <td>Ankara</td>
+        </tr>
+    </tbody>
+</table>
+
 <script>
+   var table= new Tabulator("#example"){
+   arguments: {
+       height: "311px",
+       layout: "fitColumns",
+       columns: [
+           { title: "Ad", field: "name", width: 150 },
+           { title: "Yaş", field: "age", hozAlign: "left", formatter: "progress" },
+           { title: "Şehir", field: "city" }
+       ]
+   }
+   };
    
-  let table = new DataTable('#myTable',{
-      layout: {
-        topStart: {
-            pageLength: {
-                menu: [ 5,10, 25, 50, 100 ]
-            }
-        }
-      },
-    //   language: {
-    //     url:'\lib\jDataTables\tr.json'
-    // },
-   column:[
-       {"id":"Id"},
-       {"iconUrl":"IconUrl"},
-       {"name":"Name"}
-   ]
-});
-
-
-
 </script>
 
 
+  

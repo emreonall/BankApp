@@ -1,0 +1,46 @@
+﻿@model Currency
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow-sm mx-auto">
+    <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
+        <h6>Yeni Para Birimi Yarat</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" method="post" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" style="width:110px">Kısa Tanımı</span>
+                    <input asp-for="ShortName" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="ShortName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" style="width:110px">Adı</span>
+                    <input asp-for="Name" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="card-footer shadow-sm d-flex justify-content-end">
+                <div class="form-group">
+                    <div class="btn-group">
+                        <input type="submit" value="Kaydet" class="btn btn-primary" />
+                        <a class="btn btn-secondary" asp-action="Index">Vazgeç</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

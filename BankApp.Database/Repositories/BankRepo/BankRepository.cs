@@ -9,11 +9,10 @@ namespace BankApp.Database.Repositories.BankRepo
         {
         }
 
-        Task<Bank> IBankRepository.GetByName(string name)
+        public async Task<Bank> GetByName(string name)
         {
-            //var result = await base.Queryable<Bank>().Where(x = x => x.Name == name);
-            //return result;
-            return null;
+            var result = await base.GetAllAsync(x => x.Name == name);
+            return result.Data.FirstOrDefault();
         }
     }
 }

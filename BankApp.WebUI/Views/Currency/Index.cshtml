@@ -1,15 +1,15 @@
-﻿@model List<Company>
+﻿@model List<Currency>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    // <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
-    // <link rel="stylesheet" href="/css/dataTable.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <link rel="stylesheet" href="/css/dataTable.css" />
 }
 
 
 <div class="container-md">
-    <div class="card shadow-sm mx-auto" style="max-width:600px">
+    <div class="card shadow-sm mx-auto" style="max-width:800px">
         <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
-            <h6 class="card-title mb-0">Şirketler</h6>
+            <h6 class="card-title mb-0">Para Birimleri</h6>
 
             <a class="btn btn-secondary btn-sm" asp-action="Create">
                 <i class="bi bi-plus-circle me-2"></i> Yeni
@@ -18,12 +18,13 @@
 
         </div>
         <div class="card-body">
-            <table id="companyTable" class="table table-responsive-sm w-100">
+            <table id="currencyTable" class="table table-responsive-sm w-100">
                 <thead>
                     <tr>
                         <th style="font-size:x-small">#</th>
-                        <th style="font-size:x-small"> Şirket Kodu </th>
-                        <th style="font-size:x-small"> Şirket Adı </th>
+                        <th style="font-size:x-small"> Kısa Tanımı </th>
+                        <th style="font-size:x-small"> Adı </th>
+                        <th style="font-size:x-small">Uzun Tanımı</th>
                         <th style="font-size:x-small">Yaratma Tarihi</th>
                         <th></th>
                     </tr>
@@ -34,8 +35,9 @@
                     {
                         <tr>
                             <td class="vertical-align:middle small">@m.Id</td>
-                            <td class="vertical-align:middle row-cols-sm">@m.CompanyCode</td>
-                            <td class="vertical-align:middle row-cols-sm">@m.CompanyName</td>
+                            <td class="vertical-align:middle row-cols-sm">@m.ShortName</td>
+                            <td class="vertical-align:middle row-cols-sm">@m.Name</td>
+                            <td class="vertical-align:middle row-cols-sm">@m.FullName</td>
                             <td class="vertical-align:middle row-cols-sm">@m.CreatedDate</td>
                             <td>
                                 <div class="btn-group-sm">
@@ -65,7 +67,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#companyTable').DataTable({
+        $('#currencyTable').DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
 

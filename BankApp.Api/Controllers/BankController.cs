@@ -17,8 +17,9 @@ namespace BankApp.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<Bank> model = await _repo.Hepsi();
-            return Ok (model);
+         //   List<Bank> model = await _repo.Hepsi();
+          //  return Ok (model);
+          return Ok();
         }
     }
 }

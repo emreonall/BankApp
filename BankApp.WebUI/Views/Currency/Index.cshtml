@@ -1,6 +1,17 @@
 ﻿@model List<Currency>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.Errors !=null && ((List<string>)ViewBag.Errors).Any())
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in (List<string>)ViewBag.Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
     <link rel="stylesheet" href="/css/dataTable.css" />
 }

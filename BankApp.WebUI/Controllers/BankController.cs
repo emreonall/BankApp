@@ -123,7 +123,7 @@ namespace BankApp.WebUI.Controllers
                         existingBank.Data.IconUrl = filePath;
                     }
 
-                    await _repo.Update(id, existingBank.Data);
+                    _repo.Update(id, existingBank.Data);
 
                 }
                 catch (DbUpdateConcurrencyException)

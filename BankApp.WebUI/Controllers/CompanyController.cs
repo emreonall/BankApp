@@ -2,7 +2,6 @@
 using BankApp.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace BankApp.WebUI.Controllers
 {
@@ -77,19 +76,12 @@ namespace BankApp.WebUI.Controllers
                 {
                     existingCompany.Data.CompanyName = company.CompanyName;
                     existingCompany.Data.CompanyCode = company.CompanyCode;
-                    await _repo.Update(id, existingCompany.Data);
+                    _repo.Update(id, existingCompany.Data);
 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    //if (!_context.Banks.Any(e => e.Id == bank.Id))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
+                   
                 }
                 return RedirectToAction(nameof(Index));
             }

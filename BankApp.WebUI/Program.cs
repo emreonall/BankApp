@@ -17,6 +17,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 
 builder.Services.AddDbContext<AppDbContext>();
+
+
 //builder.Services.AddAutoMapper(typeof(BankApp.Database.MapProfiles).Assembly);  //
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -24,7 +26,7 @@ builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<IBankRepository, BankRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
-builder.Services.AddScoped<ICurrencyService, CurrencyMenager>();
+builder.Services.AddScoped<ICurrencyService, CurrencyManager>();
 
 var app = builder.Build();
 

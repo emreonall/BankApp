@@ -7,7 +7,7 @@ namespace BankApp.WebUI.Controllers
 {
     public class CurrencyController : Controller
     {
-       // private readonly ICurrencyRepository _repo;
+      
        private readonly ICurrencyService _menager;
 
         public CurrencyController(ICurrencyService menager)
@@ -20,7 +20,8 @@ namespace BankApp.WebUI.Controllers
             var model = await _menager.GetAllCurrencies();
             if (model.IsSuccess == false)
             {
-                return NotFound();
+              //  return NotFound();
+              ViewBag.Errors = model.Errors;
             }
             return View(model.Data);
         }
@@ -34,16 +35,21 @@ namespace BankApp.WebUI.Controllers
         {
            
            var response= await _menager.CreateCurrency(currency);
+            if (!response.IsSuccess)
+            {
+                ViewBag.Errors = response.Errors;
+                return View();
+            }
             return RedirectToAction(nameof(Index));
 
 
-            return View(response.Data);
+          //  return View(response.Data);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var responde= await _menager.DeletCurrency(id);
+            var responde= await _menager.DeleteCurrency(id);
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Edit(int id)
@@ -62,8 +68,8 @@ namespace BankApp.WebUI.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ShortName,FullName")] Currency currency)
         {
             
-           var stat = _menager.UpdateCurrency(currency);
-            if (!stat.Result.IsSuccess)
+           var stat = await _menager.UpdateCurrency(currency);
+            if (!stat.IsSuccess)
             {
                 return NotFound();
             }

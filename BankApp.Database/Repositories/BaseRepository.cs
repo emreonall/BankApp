@@ -83,8 +83,9 @@ namespace BankApp.Database.Repositories
             return Result<T>.Failure(new List<string> { "Kayıt bulunamadı." });
         }
 
-        public Task<Result<T>> Update(int id, T entity)
+        public  Result<T> Update(int id, T entity)
         {
+            Result<T> response = new();
             Result<T> result = GetByIdAsync(id).Result;
             if (result.IsSuccess)
             {
@@ -92,15 +93,19 @@ namespace BankApp.Database.Repositories
                 {
                     _dbSet.Update(entity);
                     _context.SaveChanges();
-                    return Task.FromResult(Result<T>.Success(entity, "Kayıt başarıyla güncellendi."));
+                    // return Task.FromResult(Result<T>.Success(entity, "Kayıt başarıyla güncellendi."));
+                    response= Result<T>.Success(entity, "Kayıt başarıyla güncellendi.");
                 }
                 catch (Exception ex)
                 {
-                    return Task.FromResult(Result<T>.Failure(new List<string> { ex.Message }, "Kayıt güncellenirken bir hata oluştu."));
+                    //  return Task.FromResult(Result<T>.Failure(new List<string> { ex.Message }, "Kayıt güncellenirken bir hata oluştu."));
+                    response= Result<T>.Failure(new List<string> { ex.Message }, "Kayıt günceleme işleminde hata oluştu.");
                 }
 
             }
-            return Task.FromResult(Result<T>.Failure(result.Errors, result.Message));
+            //return Task.FromResult(Result<T>.Failure(result.Errors, result.Message));
+            // return Result<T>.Failure(result.Errors, result.Message);
+            return response;
         }
     }
 }

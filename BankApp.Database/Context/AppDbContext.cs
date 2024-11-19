@@ -14,7 +14,8 @@ namespace BankApp.Database.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("name=ConnectionStrings:SqlConnWork");
+                optionsBuilder.UseSqlServer("name=ConnectionStrings:SqlConn");
+                optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
             base.OnConfiguring(optionsBuilder); 
 

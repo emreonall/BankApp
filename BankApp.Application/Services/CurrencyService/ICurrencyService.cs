@@ -10,6 +10,6 @@ namespace BankApp.Application.Services.CurrencyService
         Task<Result<List<Currency>>> GetAllCurrencies(Expression<Func<Currency, bool>> filter = null);
         Task<Result<Currency>> CreateCurrency(Currency currency);
         Task<Result<Currency>> UpdateCurrency(Currency currency);
-        Task<Result<Currency>> DeletCurrency(int id);
+        Task<Result<Currency>> DeleteCurrency(int id);
     }
 }

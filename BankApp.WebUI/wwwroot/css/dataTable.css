@@ -1,0 +1,74 @@
+﻿/*.dt-search .dt-input {
+    width: 300px;*/ /* Genişlik */
+    /*padding: 8px;*/ /* İç boşluk */
+    /*border: 2px solid #007bff;*/ /* Kenarlık rengi ve kalınlığı */
+    /*border-radius: 5px;*/ /* Yuvarlak köşeler */
+    /*outline: none;*/ /* Tıklanınca kenarlık parlaklığını kaldırma */
+    /*transition: border-color 0.3s ease;*/ /* Kenarlık rengi geçiş efekti */
+/*}*/
+
+    /* Odaklandığında (focus) efekt */
+    /*.dt-search .dt-input:focus {
+        border-color: #0056b3;*/ /* Kenarlık rengi değişimi */
+        /*box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);*/ /* Hafif gölge */
+    /*}
+.dt-layout-row {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);*/ /* Yumuşak gölge */
+    /*border-radius: 8px;*/ /* Hafif yuvarlak köşeler */
+    /*padding: 10px;*/ /* İç boşluk */
+    /*background-color: #ffffff;*/ /* Beyaz arka plan */
+    /*margin-bottom: 15px;*/ /* Alt boşluk */
+    /*transition: box-shadow 0.3s ease;*/ /* Gölge değişim efekti */
+/*}*/
+
+    /* Hover durumunda gölgeyi artırmak için */
+    /*.dt-layout-row:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.15);
+    }*/
+div.dt-layout-row { /* :not(.dt-layout-table) */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1); /* Yumuşak gölge */
+    border-radius: 8px; /* Hafif yuvarlak köşeler */
+    padding: 10px; /* İç boşluk */
+    background-color: #ffffff; /* Beyaz arka plan */
+    margin-bottom: 15px; /* Alt boşluk */
+    transition: box-shadow 0.3s ease; /* Gölge değişim efekti */
+}
+
+    /* Hover durumunda gölgeyi artırmak için */
+    div.dt-layout-row:not(.dt-layout-table):hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+/* Sadece .dt-layout-row içinde bulunan select ve input öğelerini hedefler */
+div.dt-layout-row > select,
+div.dt-layout-row > input[type="search"] {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+    div.dt-layout-row > select:hover,
+    div.dt-layout-row > input[type="search"]:hover {
+        border-color: #007bff;
+    }
+
+    div.dt-layout-row > select:focus,
+    div.dt-layout-row > input[type="search"]:focus {
+        border-color: #0056b3;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+/* Select için özel stil */
+div.dt-layout-row > select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='gray' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 30px;
+    cursor: pointer;
+}

@@ -16,61 +16,91 @@ namespace BankApp.Database.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public async Task<T> GetByIdAsync(int id)
-        {
-            var result = await _dbSet.FindAsync(id);
-            if (result == null)
-            {
-                throw new Exception($"{id} id'li kayıt bulunamadı.");
-            }
-            return result;
-        }
-
-        public IQueryable<T> Queryable(Expression<Func<T, bool>> predicate)
-        {
-            return _dbSet.Where(predicate).AsNoTracking();
-
-
-        }
-
-        public async Task AddAsync(T entity)
+        public async Task<Result<T>> AddAsync(T entity)
         {
             try
             {
                 await _dbSet.AddAsync(entity);
                 await _context.SaveChangesAsync();
+                return Result<T>.Success(entity, "Kayıt başarıyla eklendi.");
             }
-            catch (Exception ex) { }
-
+            catch (Exception ex)
+            {
+                return Result<T>.Failure(new List<string> { ex.Message }, "Kayıt eklenirken bir hata oluştu.");
+            }
         }
 
-        public async Task UpdateAsync(int id, T entity)
+        public async Task<Result<T>> Delete(int id)
         {
-            _dbSet.Update(entity);
-            await _context.SaveChangesAsync();
-        }
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null)
+            {
+                return Result<T>.Failure(new List<string> { "Kayıt bulunamadı." });
+            }
 
-        public async Task DeleteAsync(int id)
-        {
-            var entity = await GetByIdAsync(id);
-            if (entity!=null)
+            try
             {
                 _dbSet.Remove(entity);
                 await _context.SaveChangesAsync();
+                return Result<T>.Success(entity, "Kayıt silindi.");
+            }
+            catch (Exception ex)
+            {
+                return Result<T>.Failure(new List<string> { ex.Message }, "Kayıt silme işleminde hata oluştu");
             }
         }
 
-        public IQueryable<T> GetAll()
+        public async Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> filter = null)
         {
-            var result = _dbSet.AsNoTracking();
-
-            return result;
+            Result<List<T>> sonuc = new();
+            if (filter == null)
+            {
+                var entities = await _dbSet.ToListAsync(); // Veriyi çekmek için `ToList()` çağrısı yapıldı.
+                sonuc = Result<List<T>>.Success(entities, $"{entities.Count} adet kayıt listelendi.");
+            }
+            else
+            {
+                var entities = await _dbSet.Where(filter).ToListAsync(); // Veriyi çekmek için `ToList()` çağrısı yapıldı.
+                if (entities.Any())
+                {
+                    sonuc = Result<List<T>>.Success(entities, $"{entities.Count} adet kayıt listelendi.");
+                }
+            }
+            if (sonuc.IsSuccess)
+            {
+                return sonuc;
+            }
+            return Result<List<T>>.Failure(new List<string> { "Koşula uygun kayıt bulunamadı." });
         }
 
-        public async Task<List<T>> Hepsi()
+        public async Task<Result<T>> GetByIdAsync(int id)
         {
-            return await _dbSet.ToListAsync();
+            var entity = await _dbSet.FindAsync(id);
+            if (entity != null)
+            {
+                return Result<T>.Success(entity, "Kayıt bulundu.");
+            }
+            return Result<T>.Failure(new List<string> { "Kayıt bulunamadı." });
         }
 
+        public Task<Result<T>> Update(int id, T entity)
+        {
+            Result<T> result = GetByIdAsync(id).Result;
+            if (result.IsSuccess)
+            {
+                try
+                {
+                    _dbSet.Update(entity);
+                    _context.SaveChanges();
+                    return Task.FromResult(Result<T>.Success(entity, "Kayıt başarıyla güncellendi."));
+                }
+                catch (Exception ex)
+                {
+                    return Task.FromResult(Result<T>.Failure(new List<string> { ex.Message }, "Kayıt güncellenirken bir hata oluştu."));
+                }
+
+            }
+            return Task.FromResult(Result<T>.Failure(result.Errors, result.Message));
+        }
     }
 }

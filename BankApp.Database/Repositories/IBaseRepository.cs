@@ -5,13 +5,11 @@ namespace BankApp.Database.Repositories
 {
     public interface IBaseRepository<T> where T : BaseEntity
     {
-        Task<T> GetByIdAsync(int id);
-        IQueryable<T> GetAll();
-        Task<List<T>> Hepsi();
-        IQueryable<T> Queryable(Expression<Func<T,bool>> predicate);
-        Task AddAsync(T entity);
-        Task  UpdateAsync(int id, T entity);
-        Task  DeleteAsync(int id);
+        Task<Result<T>> GetByIdAsync(int id);
+        Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> filter = null);
+        Task<Result<T>> AddAsync(T entity);
+        Task<Result<T>> Update(int id, T entity);
+        Task<Result<T>> Delete(int id);
 
     }
 }

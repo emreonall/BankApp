@@ -1,28 +1,29 @@
-﻿@model Bank
+﻿@model Company
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="card shadow-sm mx-auto">
     <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
-        <h6>Banka Güncelle</h6>
+        <h6>Yeni Banka Yarat</h6>
     </div>
     <div class="card-body">
-        <form asp-action="Edit" method="post" enctype="multipart/form-data">
-            <input type="hidden" asp-for="Id" />
+        <form asp-action="Create" method="post" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" style="width:80px">Banka Adı</span>
-                    <input asp-for="Name" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <span class="input-group-text" style="width:110px">ERP Şirket Kodu</span>
+                    <input asp-for="CompanyCode" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="CompanyCode" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="input-group input-group-sm mb-3">
-                    <input asp-for="IconUrl" class="form-control" type="file" name="iconFile" />
-                    <span asp-validation-for="IconUrl" class="text-danger"></span>
+                    <span class="input-group-text" style="width:110px">Şirket Adı</span>
+                    <input asp-for="CompanyName" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
                 </div>
             </div>
+           
             <div class="card-footer shadow-sm d-flex justify-content-end">
                 <div class="form-group">
                     <div class="btn-group">
@@ -31,9 +32,12 @@
                     </div>
                 </div>
             </div>
+
+
         </form>
     </div>
 </div>
+
 
 @section Scripts {
     @{

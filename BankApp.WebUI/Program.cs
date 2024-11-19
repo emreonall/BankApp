@@ -5,6 +5,7 @@ using BankApp.Database.DTOs;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using System.Reflection;
+using BankApp.Database.Repositories.CompanyRepo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
 builder.Services.AddScoped<IBankRepository,BankRepository>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
 var app = builder.Build();
 

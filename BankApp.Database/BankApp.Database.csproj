@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Repositories\CompanyRepo\" />
     <Folder Include="Repositories\CurrencyRepo\" />
     <Folder Include="Repositories\ExchangeRateRepo\" />
     <Folder Include="Repositories\TransactionRepo\" />

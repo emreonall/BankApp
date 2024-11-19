@@ -1,16 +1,15 @@
-﻿@using System.IO
-@model List<Bank>
+﻿@model List<Company>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-            <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
-            <link rel="stylesheet" href="/css/dataTable.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <link rel="stylesheet" href="/css/dataTable.css" />
 }
 
 
 <div class="container-md">
     <div class="card shadow-sm mx-auto" style="max-width:600px">
         <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
-            <h6 class="card-title mb-0">Bankalar</h6>
+            <h6 class="card-title mb-0">Şirketler</h6>
 
             <a class="btn btn-secondary btn-sm" asp-action="Create">
                 <i class="bi bi-plus-circle me-2"></i> Yeni
@@ -23,8 +22,8 @@
                 <thead>
                     <tr>
                         <th style="font-size:x-small">#</th>
-                        <th></th>
-                        <th style="font-size:x-small"> Banka Adı </th>
+                        <th style="font-size:x-small"> Şirket Kodu </th>
+                        <th style="font-size:x-small"> Şirket Adı </th>
                         <th style="font-size:x-small">Yaratma Tarihi</th>
                         <th></th>
                     </tr>
@@ -35,18 +34,11 @@
                     {
                         <tr>
                             <td class="vertical-align:middle small">@m.Id</td>
-                            <td>
-                                @{
-                                    var fileName = System.IO.Path.GetFileName(m.IconUrl);
-                                }
-                                <img src="~/uploads/@fileName" alt="Bank Icon" style="width: 50px; height: auto;" />
-                            </td>
-                          
-                            <td class="vertical-align:middle row-cols-sm">@m.Name</td>
+                            <td class="vertical-align:middle row-cols-sm">@m.CompanyCode</td>
+                            <td class="vertical-align:middle row-cols-sm">@m.CompanyName</td>
                             <td class="vertical-align:middle row-cols-sm">@m.CreatedDate</td>
                             <td>
                                 <div class="btn-group-sm">
-                                   
                                     <a class="btn btn-sm btn-outline-warning" asp-action="Edit" asp-route-id="@m.Id">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
@@ -72,24 +64,6 @@
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 
 <script>
-    // let table = new DataTable('#bankTable', {
-    //     layout: {
-    //         topStart: {
-    //             pageLength: {
-    //                 menu: [5, 10, 25, 50, 100]
-    //             }
-    //         }
-    //     },
-    //     //   language: {
-    //     //     url:'\lib\jDataTables\tr.json'
-    //     // },
-    //     column: [
-    //         { "id": "Id" },
-    //         { "iconUrl": "IconUrl" },
-    //         { "name": "Name" }
-    //     ]
-    // });
-
     $(document).ready(function () {
         $('#bankTable').DataTable({
             "language": {
@@ -97,11 +71,10 @@
 
             },
             lengthMenu: [5, 10, 25, 50, 100],
-            
+
         });
-        
+
     });
 </script>
 
 
-  

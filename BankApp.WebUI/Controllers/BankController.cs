@@ -22,8 +22,13 @@ namespace BankApp.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Bank> model = await _repo.Hepsi();
-            return View(model);
+
+            var model = await _repo.GetAllAsync();
+            if (model.IsSuccess == false)
+            {
+                return NotFound();
+            }
+            return View(model.Data);
         }
         public IActionResult Create()
         {
@@ -62,17 +67,21 @@ namespace BankApp.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _repo.DeleteAsync(id);
+            var model= await _repo.Delete(id);
+            if (model.IsSuccess == false)
+            {
+                return NotFound();
+            }
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Edit(int id)
         {
             var bank = await _repo.GetByIdAsync(id);
-            if (bank == null)
+            if (bank.Data == null || bank.IsSuccess==false)
             {
                 return NotFound();
             }
-            return View(bank);
+            return View(bank.Data);
         }
 
         // POST: Bank/Edit/5
@@ -94,7 +103,7 @@ namespace BankApp.WebUI.Controllers
             {
                 try
                 {
-                    existingBank.Name = bank.Name;
+                    existingBank.Data.Name = bank.Name;
 
                     // Eğer yeni bir dosya yüklenmişse, eski değeri güncelle
                     if (iconFile != null && iconFile.Length > 0)
@@ -111,11 +120,11 @@ namespace BankApp.WebUI.Controllers
                         }
 
                         // Tam yolu IconUrl alanına atama
-                        existingBank.IconUrl = filePath;
+                        existingBank.Data.IconUrl = filePath;
                     }
 
-                    await _repo.UpdateAsync(id,existingBank);
-                   
+                    await _repo.Update(id, existingBank.Data);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

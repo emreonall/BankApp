@@ -1,3 +1,4 @@
+using BankApp.Application.Services.CompanyService;
 using BankApp.Application.Services.CurrencyService;
 using BankApp.Database.Context;
 using BankApp.Database.Repositories;
@@ -27,6 +28,7 @@ builder.Services.AddScoped<IBankRepository, BankRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
 builder.Services.AddScoped<ICurrencyService, CurrencyManager>();
+builder.Services.AddScoped<ICompanyService, CompanyManager>();
 
 var app = builder.Build();
 

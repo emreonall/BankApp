@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Services\BankService\" />
-    <Folder Include="Services\CompanyService\" />
     <Folder Include="Services\ExchangeRateService\" />
     <Folder Include="Services\TransactionService\" />
     <Folder Include="Services\TransactionTypeService\" />

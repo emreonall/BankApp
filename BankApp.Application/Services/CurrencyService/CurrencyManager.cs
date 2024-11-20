@@ -25,16 +25,16 @@ namespace BankApp.Application.Services.CurrencyService
 
             var result = await _repo.AddAsync(currency);
             return result.IsSuccess
-                ? Result<Currency>.Success(currency, "New currency created successfully.")
-                : Result<Currency>.Failure(result.Errors, "Failed to create currency.");
+                ? Result<Currency>.Success(result.Data,result.Message)
+                : Result<Currency>.Failure(result.Errors,result.Message);
         }
 
         public async Task<Result<Currency>> DeleteCurrency(int id)
         {
             var result = await _repo.Delete(id);
             return result.IsSuccess
-                ? Result<Currency>.Success(result.Data, "Currency deleted successfully.")
-                : Result<Currency>.Failure(result.Errors, "Failed to delete currency.");
+                ? Result<Currency>.Success(result.Data,result.Message)
+                : Result<Currency>.Failure(result.Errors,result.Message);
         }
 
         public async Task<Result<List<Currency>>> GetAllCurrencies(Expression<Func<Currency, bool>>? filter = null)
@@ -44,16 +44,16 @@ namespace BankApp.Application.Services.CurrencyService
                 : await _repo.GetAllAsync(filter);
 
             return result.IsSuccess
-                ? Result<List<Currency>>.Success(result.Data, "Currencies retrieved successfully.")
-                : Result<List<Currency>>.Failure(result.Errors, "Failed to retrieve currencies.");
+                ? Result<List<Currency>>.Success(result.Data,result.Message)
+                : Result<List<Currency>>.Failure(result.Errors, result.Message);
         }
 
         public async Task<Result<Currency>> GetCurrencyById(int id)
         {
             var result = await _repo.GetByIdAsync(id);
             return result.IsSuccess
-                ? Result<Currency>.Success(result.Data, "Currency retrieved successfully.")
-                : Result<Currency>.Failure(result.Errors, "Failed to retrieve currency.");
+                ? Result<Currency>.Success(result.Data,result.Message)
+                : Result<Currency>.Failure(result.Errors, result.Message);
         }
 
         public async Task<Result<Currency>> UpdateCurrency(Currency currency)
@@ -67,7 +67,7 @@ namespace BankApp.Application.Services.CurrencyService
             var existingCurrencyResult = await _repo.GetByIdAsync(currency.Id);
             if (!existingCurrencyResult.IsSuccess || existingCurrencyResult.Data == null)
             {
-                return Result<Currency>.Failure(new List<string> { "Currency not found." });
+                return Result<Currency>.Failure(existingCurrencyResult.Errors,existingCurrencyResult.Message);
             }
 
             try
@@ -77,12 +77,13 @@ namespace BankApp.Application.Services.CurrencyService
 
                 var updateResult = _repo.Update(currency.Id, currency);
                 return updateResult.IsSuccess
-                    ? Result<Currency>.Success(currency, "Currency updated successfully.")
-                    : Result<Currency>.Failure(updateResult.Errors, "Failed to update currency.");
+                    ? Result<Currency>.Success(updateResult.Data,updateResult.Message)
+                    : Result<Currency>.Failure(updateResult.Errors,updateResult.Message);
             }
             catch (Exception ex)
             {
-                return Result<Currency>.Failure(new List<string> { ex.Message }, "An error occurred while updating the currency.");
+                
+                return Result<Currency>.Failure(new List<string> { ex.Message }, "Kayıt güncellenirken hata oluştu.");
             }
         }
 
@@ -93,7 +94,7 @@ namespace BankApp.Application.Services.CurrencyService
             if (!validationResult.IsValid)
             {
                 var errorMessages = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-                return Result<Currency>.Failure(errorMessages, "Validation failed.");
+                return Result<Currency>.Failure(errorMessages, "Doğrulamalar başarısız.");
             }
             return Result<Currency>.Success(currency);
         }

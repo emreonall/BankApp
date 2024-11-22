@@ -2,6 +2,17 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (ViewBag.Errors != null && ViewBag.Errors is IEnumerable<string> errors)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewBag.Errors)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
 
 <div class="card shadow-sm mx-auto">
     <div class="card-header d-flex justify-content-between align-items-center shadow-sm">

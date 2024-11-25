@@ -1,5 +1,7 @@
 ﻿using BankApp.Database.Repositories.CompanyRepo;
+using BankApp.Database.Validators;
 using BankApp.Domain.Entities;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,11 +33,18 @@ namespace BankApp.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Company company)
         {
+            CompanyValidator validator = new CompanyValidator();
+            var validationResult = await validator.ValidateAsync(company);
+            validationResult.AddToModelState(ModelState, null);
+
             if (ModelState.IsValid)
             {
                 await _repo.AddAsync(company);
                 return RedirectToAction(nameof(Index));
             }
+
+
+            ViewBag.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
             return View(company);
         }
         [HttpPost]
@@ -48,7 +57,7 @@ namespace BankApp.WebUI.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var comp = await _repo.GetByIdAsync(id);
-            if (comp.Data == null || comp.IsSuccess==false)
+            if (comp.Data == null || comp.IsSuccess == false)
             {
                 return NotFound();
             }
@@ -64,11 +73,18 @@ namespace BankApp.WebUI.Controllers
             {
                 return BadRequest();
             }
+           
+
             var existingCompany = await _repo.GetByIdAsync(id);
-            if (existingCompany.Data == null || existingCompany.IsSuccess==false)
+            if (existingCompany.Data == null || existingCompany.IsSuccess == false)
             {
                 return NotFound();
             }
+
+            CompanyValidator validator = new CompanyValidator();
+            var validationResult = validator.Validate(company);
+            validationResult.AddToModelState(ModelState, null);
+           
 
             if (ModelState.IsValid)
             {
@@ -81,10 +97,11 @@ namespace BankApp.WebUI.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                   
+
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
             return View(company);
         }
     }

@@ -1,6 +1,5 @@
 ﻿using BankApp.Database.Context;
 using BankApp.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace BankApp.Database.Repositories.CompanyRepo
 {
@@ -12,8 +11,8 @@ namespace BankApp.Database.Repositories.CompanyRepo
 
         public async Task<Company> GetByCompanyCodeAsync(string companyCode)
         {
-            var companiesResult = await base.GetAllAsync(x => x.CompanyCode == companyCode);
-            return companiesResult.Data!.FirstOrDefault();
+            var companiesResult= await base.GetQueryAsync(x => x.CompanyCode == companyCode);
+            return companiesResult.Data;
         }
     }
 }

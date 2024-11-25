@@ -1,32 +1,44 @@
-﻿@model Currency
+﻿@model ProcessType
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-   
+
 }
 
 
 <div class="card shadow-sm mx-auto">
     <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
-        <h6>Yeni Para Birimi Yarat</h6>
+        <h6>Yeni İşlem Türü Yarat</h6>
     </div>
     <div class="card-body">
-        
-        <form asp-antiforgery="true" asp-action="Create" asp-asp-controller="Currency" method="post" enctype="multipart/form-data">
+
+        <form asp-antiforgery="true" asp-action="Create" asp-asp-controller="ProcessType" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
             <div class="form-group">
                 <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" style="width:110px">Kısa Tanımı</span>
-                    <input asp-for="ShortName" class="form-control" autocomplete="off" />
-                   
-                 
+                    <span class="input-group-text" style="width:130px">İşlem Türü Tanımı</span>
+                    <input asp-for="Name" class="form-control" autocomplete="off" />
+
+
                 </div>
             </div>
             <div class="form-group">
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" style="width:110px">Adı</span>
-                    <input asp-for="Name" class="form-control" autocomplete="off" />
-                 
-               
+                <div class="input-group form-select-sm mb-3">
+                    <span class="input-group-text" style="width:130px">Sembol</span>
+                    <select asp-for="Symbol" class="form-control" asp-items="ViewBag.SymbolList">
+                        <option value="">Sembol seçiniz...</option>
+                    </select>
+
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group form-select-sm mb-3">
+                    <span class="input-group-text" style="width:130px">Çarpan</span>
+                    <select asp-for="Multiplier" class="form-control" asp-items="ViewBag.MultiplierList">
+                        <option value="">Çarpan seçiniz...</option>
+                    </select>
+
+
                 </div>
             </div>
 

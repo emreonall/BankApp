@@ -17,6 +17,7 @@ namespace BankApp.Application.Services.CurrencyService
 
         public async Task<Result<Currency>> CreateCurrency(Currency currency)
         {
+
             var response = await _repo.AddAsync(currency);
             return response;
         }

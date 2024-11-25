@@ -1,0 +1,93 @@
+﻿@model List<ProcessType>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.Errors != null && ((List<string>)ViewBag.Errors).Any())
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in (List<string>)ViewBag.Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <link rel="stylesheet" href="/css/dataTable.css" />
+}
+
+
+<div class="container-md">
+    <div class="card shadow-sm mx-auto" style="max-width:800px">
+        <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
+            <h6 class="card-title mb-0">İşlem Türleri</h6>
+
+            <a class="btn btn-secondary btn-sm" asp-action="Create">
+                <i class="bi bi-plus-circle me-2"></i> Yeni
+            </a>
+
+
+        </div>
+        <div class="card-body">
+            <table id="processTypeTable" class="table table-responsive-sm w-100">
+                <thead>
+                    <tr>
+                        <th style="font-size:x-small">#</th>
+                        <th style="font-size:x-small"> İşlem Türü Tanımı </th>
+                        <th style="font-size:x-small"> Sembol (+/-) </th>
+                        <th style="font-size:x-small">Çarpan</th>
+                        <th style="font-size:x-small">Yaratma Tarihi</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var m in Model)
+                    {
+                        <tr>
+                            <td class="vertical-align:middle small">@m.Id</td>
+                            <td class="vertical-align:middle row-cols-sm">@m.Name</td>
+                            <td class="vertical-align:middle row-cols-sm">@m.Symbol</td>
+                            <td class="vertical-align:middle row-cols-sm">@m.Multiplier</td>
+                            <td class="vertical-align:middle row-cols-sm">@m.CreatedDate</td>
+                            <td>
+                                <div class="btn-group-sm">
+                                    <a class="btn btn-sm btn-outline-warning" asp-action="Edit" asp-route-id="@m.Id">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <form asp-action="Delete" method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="@m.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger align-middle" onclick="return confirm('Bu kaydı silmek istediğinize emin misiniz?');">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+<br />
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#processTypeTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+
+            },
+            lengthMenu: [5, 10, 25, 50, 100],
+
+        });
+
+    });
+</script>
+
+

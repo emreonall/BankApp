@@ -1,6 +1,20 @@
 ﻿@model Bank
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    
+}
+@if (ViewBag.Errors != null && ((List<string>)ViewBag.Errors).Any())
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in (List<string>)ViewBag.Errors)
+            {
+                <li>@error</li>
+
+            }
+        </ul>
+    </div>
 }
 
 <div class="card shadow-sm mx-auto">
@@ -13,7 +27,6 @@
                 <div class="input-group input-group-sm mb-3">
                     <span class="input-group-text" style="width:85px">Banka Adı</span>
                     <input asp-for="Name" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
             </div>
@@ -21,7 +34,6 @@
                 <div class="input-group input-group-sm mb-3">
                     @* <span class="input-group-text" style="width:150px">Banka Logo Dosyası</span> *@
                     <input asp-for="IconUrl" class="form-control" type="file" name="iconFile" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
             </div>

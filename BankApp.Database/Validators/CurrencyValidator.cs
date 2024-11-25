@@ -7,8 +7,8 @@ namespace BankApp.Database.Validators
     {
         public CurrencyValidator()
         {
-            RuleFor(x => x.Name).NotNull().WithMessage("Para birimi adı boş geçilemez.").NotEmpty().WithMessage("Para birimi adı boş geçilemez.");
-            RuleFor(x => x.ShortName).MinimumLength(3).WithMessage("Para birimi en az 3 karakter olabilir.").NotEmpty().WithMessage("Para birimi adı boş geçilemez.").MaximumLength(3).WithMessage("Para birimi en fazla 3 karakter olabilir.").NotNull().WithMessage("Para birimi adı boş geçilemez.");
+            RuleFor(x => x.Name).NotNull().WithMessage("Para birimi adı boş geçilemez.").MaximumLength(50).WithMessage("Adı alanı en fazla 50 karakter olabilir.");
+            RuleFor(x => x.ShortName).MinimumLength(3).WithMessage("Para birimi en az 3 karakter olabilir.").NotEmpty().MaximumLength(3).WithMessage("Para birimi en fazla 3 karakter olabilir.").NotNull().WithMessage("Para birimi adı boş geçilemez.");
         }
     }
 }

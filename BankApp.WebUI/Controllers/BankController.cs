@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BankApp.Database.DTOs.BankDtos;
 using BankApp.Database.Repositories.BankRepo;
+using BankApp.Database.Validators;
 using BankApp.Domain.Entities;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +21,7 @@ namespace BankApp.WebUI.Controllers
             _mapper = mapper;
             _hostEnvironment = hostEnvironment;
         }
-
+        BankValidator bankValidator = new BankValidator();
         public async Task<IActionResult> Index()
         {
 
@@ -39,6 +41,9 @@ namespace BankApp.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name")] Bank bank, IFormFile iconFile)
         {
+            var validationResult = await bankValidator.ValidateAsync(bank);
+            validationResult.AddToModelState(ModelState, null);
+
             if (ModelState.IsValid)
             {
                 if (iconFile != null && iconFile.Length > 0)
@@ -61,6 +66,7 @@ namespace BankApp.WebUI.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
             return View(bank);
         }
         [HttpPost]

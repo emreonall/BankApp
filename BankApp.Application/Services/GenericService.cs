@@ -38,7 +38,7 @@ namespace BankApp.Application.Services
 
         public async Task<Result<T>> AddAsync(T entity, IValidator<T> validator)
         {
-            var validationResult =ValidateEntity(entity,validator);
+            var validationResult = ValidateEntity(entity, validator);
             if (!validationResult.IsSuccess)
             {
                 return validationResult;
@@ -52,7 +52,7 @@ namespace BankApp.Application.Services
 
         public async Task<Result<T>> Update(int id, T entity, IValidator<T> validator)
         {
-            var validationResult = ValidateEntity(entity,validator);
+            var validationResult = ValidateEntity(entity, validator);
 
             if (!validationResult.IsSuccess)
             {
@@ -77,7 +77,7 @@ namespace BankApp.Application.Services
 
                 return Result<T>.Failure(new List<string> { ex.Message }, "Kayıt güncellenirken hata oluştu.");
             }
-          
+
         }
 
         public async Task<Result<T>> DeleteAsync(int id)

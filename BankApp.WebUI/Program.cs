@@ -6,6 +6,7 @@ using BankApp.Database.Repositories;
 using BankApp.Database.Repositories.BankRepo;
 using BankApp.Database.Repositories.CompanyRepo;
 using BankApp.Database.Repositories.CurrencyRepo;
+using BankApp.Database.Repositories.ProcessTypeRepo;
 using BankApp.Database.Validators;
 using BankApp.Domain.Entities;
 using FluentValidation;
@@ -16,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+builder.Services.AddFluentValidationAutoValidation(options => options.DisableDataAnnotationsValidation = true).AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 
@@ -36,6 +37,7 @@ builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 builder.Services.AddScoped<IBankRepository, BankRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+builder.Services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
 
 
 builder.Services.AddScoped<ICurrencyService, CurrencyManager>();
@@ -43,6 +45,7 @@ builder.Services.AddScoped<ICompanyService, CompanyManager>();
 
 builder.Services.AddScoped<IValidator<Currency>, CurrencyValidator>();
 builder.Services.AddScoped<IValidator<Company>, CompanyValidator>();
+builder.Services.AddScoped<IValidator<ProcessType>, ProcessTypeValidator>();
 
 
 var app = builder.Build();

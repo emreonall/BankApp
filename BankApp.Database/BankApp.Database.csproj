@@ -31,7 +31,6 @@
     <Folder Include="Repositories\ExchangeRateRepo\" />
     <Folder Include="Repositories\TransactionRepo\" />
     <Folder Include="Repositories\TransactionTypeRepo\" />
-    <Folder Include="Repositories\ProcessTypeRepo\" />
   </ItemGroup>
 
 </Project>

@@ -1,31 +1,26 @@
-﻿using Azure;
-using BankApp.Application.Services.CurrencyService;
+﻿using BankApp.Database.Repositories.CurrencyRepo;
 using BankApp.Database.Validators;
 using BankApp.Domain.Entities;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BankApp.WebUI.Controllers
 {
     public class CurrencyController : Controller
     {
+
+        private readonly ICurrencyRepository _repo;
       
-       private readonly ICurrencyService _manager;
-        CurrencyValidator validator = new CurrencyValidator();
-        public CurrencyController(ICurrencyService manager)
+        public CurrencyController(ICurrencyRepository repo)
         {
-            _manager = manager;
+            _repo = repo;
 
         }
-
+        CurrencyValidator validator = new CurrencyValidator();
         public async Task<IActionResult> Index()
         {
-            var model = await _manager.GetAllAsync();
-            if (model.IsSuccess == false)
-            {
-              //  return NotFound();
-              ViewBag.Errors = model.Errors;
-            }
+            var model = await _repo.GetAllAsync();
+           
             return View(model.Data);
         }
         public IActionResult Create()
@@ -34,26 +29,33 @@ namespace BankApp.WebUI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Currency currency)
+        public async Task<IActionResult> Create([Bind("Name","ShortName")] Currency currency)
         {
-           
-            var response= await _manager.AddAsync(currency,validator);
-            if (!response.IsSuccess)
+            CurrencyValidator validator = new CurrencyValidator();
+            var validationResult = validator.Validate(currency);
+
+            validationResult.AddToModelState(ModelState, null);
+
+
+            if (!ModelState.IsValid)
             {
-                ViewBag.Errors = response.Errors;
+                ViewBag.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
                 return View();
             }
+
+            await _repo.AddAsync(currency);
             return RedirectToAction(nameof(Index));
 
+            
+           
 
-       
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            
-            var response= await _manager.DeleteAsync(id);
+
+            var response = await _repo.Delete(id);
             if (!response.IsSuccess)
             {
                 ViewBag.Errors = response.Errors;
@@ -63,7 +65,9 @@ namespace BankApp.WebUI.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var response = await _manager.GetByIdAsync(id);
+
+            var response = await _repo.GetByIdAsync(id);
+            
             if (response.Data == null || response.IsSuccess == false)
             {
                 ViewBag.Errors = response.Errors;
@@ -77,15 +81,31 @@ namespace BankApp.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ShortName,FullName")] Currency currency)
         {
-            
-           var stat = await _manager.Update(id,currency,validator);
+            if (id != currency.Id)
+            {
+                return BadRequest();
+            }
+
+            var validationResult = validator.Validate(currency);
+
+            if (!validationResult.IsValid)
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                    ViewBag.Errors = error.ErrorMessage;
+                }
+                return View(currency);
+            }
+
+            var stat =  _repo.Update(id, currency);
             if (!stat.IsSuccess)
             {
                 return NotFound();
             }
             return RedirectToAction(nameof(Index));
-            
-          
+
+
         }
     }
 }

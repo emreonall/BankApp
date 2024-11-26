@@ -30,7 +30,6 @@
     <Folder Include="Migrations\" />
     <Folder Include="Repositories\ExchangeRateRepo\" />
     <Folder Include="Repositories\TransactionRepo\" />
-    <Folder Include="Repositories\TransactionTypeRepo\" />
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,7 @@
     {
         public required string Name { get; set; }
         public required string Symbol { get; set; }
-        public string FullName => "{Name}({Symbol}) ";
+        public string FullName =>string.Join(" ",Name,"(",Symbol,")") ;
         public int Multiplier { get; set; } = 1;
 
     }

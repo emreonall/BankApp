@@ -59,7 +59,7 @@ namespace BankApp.WebUI.Controllers
             if (!response.IsSuccess)
             {
                 ViewBag.Errors = response.Errors;
-                return View();
+                return RedirectToAction(nameof(Index));
             }
             return RedirectToAction(nameof(Index));
         }
@@ -79,7 +79,7 @@ namespace BankApp.WebUI.Controllers
         // POST: Company/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ShortName,FullName")] Currency currency)
+        public IActionResult Edit(int id, [Bind("Id,Name,ShortName,FullName")] Currency currency)
         {
             if (id != currency.Id)
             {

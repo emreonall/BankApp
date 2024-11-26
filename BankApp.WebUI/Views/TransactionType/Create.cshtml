@@ -1,32 +1,32 @@
-﻿@model Currency
+﻿@model TransactionType
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 
 <div class="card shadow-sm mx-auto">
     <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
-        <h6>Yeni Para Birimi Yarat</h6>
+        <h6>Yeni Hareket Türü Yarat</h6>
     </div>
     <div class="card-body">
 
-        <form asp-antiforgery="true" asp-action="Edit" method="post" enctype="multipart/form-data">
-         
+        <form asp-antiforgery="true" asp-action="Create"  method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
             <div class="form-group">
                 <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" style="width:110px">Kısa Tanımı</span>
-                    <input asp-for="ShortName" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="ShortName" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" style="width:110px">Adı</span>
+                    <span class="input-group-text" style="width:140px">Hareket Türü Tanımı</span>
                     <input asp-for="Name" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
             </div>
-
+            <div class="form-group">
+                <div class="input-group form-select-sm mb-3">
+                    <span class="input-group-text" style="width:140px">Sembol</span>
+                    <select id="ProcessType" asp-for="ProcessTypeId" class="form-control" asp-items="ViewBag.ProcessTypes">
+                        <option value="">İşlem Türü seçiniz...</option>
+                    </select>
+                </div>
+            </div>
             <div class="card-footer shadow-sm d-flex justify-content-end">
                 <div class="form-group">
                     <div class="btn-group">
@@ -35,22 +35,18 @@
                     </div>
                 </div>
             </div>
+
+
         </form>
     </div>
 </div>
-
-@if (ViewBag.Errors != null && ViewBag.Errors is IEnumerable<string> errors)
+@if (ViewBag.Errors is not null)
 {
     <div class="alert alert-danger">
-        <ul>
-            @foreach (var error in ViewBag.errors)
-            {
-                <li>@error</li>
-            }
-        </ul>
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
     </div>
-}
 
+}
 
 @section Scripts {
     @{

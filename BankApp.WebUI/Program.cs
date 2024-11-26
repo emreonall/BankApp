@@ -7,6 +7,7 @@ using BankApp.Database.Repositories.BankRepo;
 using BankApp.Database.Repositories.CompanyRepo;
 using BankApp.Database.Repositories.CurrencyRepo;
 using BankApp.Database.Repositories.ProcessTypeRepo;
+using BankApp.Database.Repositories.TransactionTypeRepo;
 using BankApp.Database.Validators;
 using BankApp.Domain.Entities;
 using FluentValidation;
@@ -38,6 +39,7 @@ builder.Services.AddScoped<IBankRepository, BankRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
 builder.Services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
+builder.Services.AddScoped<ITransactionTypeRepository, TransactionTypeRepository>();
 
 
 builder.Services.AddScoped<ICurrencyService, CurrencyManager>();
@@ -46,6 +48,7 @@ builder.Services.AddScoped<ICompanyService, CompanyManager>();
 builder.Services.AddScoped<IValidator<Currency>, CurrencyValidator>();
 builder.Services.AddScoped<IValidator<Company>, CompanyValidator>();
 builder.Services.AddScoped<IValidator<ProcessType>, ProcessTypeValidator>();
+builder.Services.AddScoped<IValidator<TransactionType>, TransacitonTypeValidator>();
 
 
 var app = builder.Build();

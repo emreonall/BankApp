@@ -76,7 +76,7 @@ namespace BankApp.WebUI.Controllers
             var model= await _repo.Delete(id);
             if (model.IsSuccess == false)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
             return RedirectToAction(nameof(Index));
         }

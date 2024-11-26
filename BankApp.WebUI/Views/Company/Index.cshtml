@@ -69,9 +69,11 @@
                 <h5 class="modal-title" id="deleteModalLabel">Kaydı Sil</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
+                <i class="bi bi-patch-exclamation" style="font-size: 4rem; color: cornflowerblue;"></i>
                 Bu kaydı silmek istediğinizden emin misiniz?
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
                 <button type="button" class="btn btn-danger" onclick="submitDeleteForm()">Sil</button>

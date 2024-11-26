@@ -67,7 +67,7 @@ namespace BankApp.WebUI.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return View(bank);
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

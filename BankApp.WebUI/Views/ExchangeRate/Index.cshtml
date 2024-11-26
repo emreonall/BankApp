@@ -1,0 +1,126 @@
+﻿@model List<ExchangeRate>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+<link rel="stylesheet" href="/css/dataTable.css" />
+
+<div class="container-md">
+    <div class="card shadow-sm mx-auto" style="max-width:800px">
+        <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
+            <h6 class="card-title mb-0">Günlük Kurlar</h6>
+            <div class="btn-group btn-group-sm">
+                <a class="btn btn-outline-info btn-sm" asp-action="Create" asp-controller="Currency" style="padding-inline-end">
+                    <i class="bi bi-plus-circle me-2"></i> Para Birimi Yarat
+                </a>
+
+                <a class="btn btn-secondary btn-sm" asp-action="Create">
+                    <i class="bi bi-plus-circle me-2"></i> Yeni
+                </a>
+            </div>
+    
+
+        </div>
+        <div class="card-body">
+            <table id="exchangeRateTable" class="table table-responsive-sm w-100">
+                <thead>
+                    <tr>
+                        <th style="font-size:x-small">#</th>
+                        <th style="font-size:x-small"> Tarih </th>
+                        <th style="font-size:x-small"> Para Birimi </th>
+                        <th style="font-size:x-small"> Kur </th>
+                        <th style="font-size:x-small"> Giriş Zamanı </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+
+
+                        @foreach (var m in Model)
+                        {
+                            <tr>
+                                <td class="vertical-align:middle small">@m.Id</td>
+                                <td class="vertical-align:middle row-cols-sm">@m.CurrentDate</td>
+                                <td class="vertical-align:middle row-cols-sm">@m.Currency?.FullName</td>
+                                <td class="vertical-align:middle row-cols-sm">@m.Rate</td>
+                                <td class="vertical-align:middle row-cols-sm">@m.CreatedDate</td>
+                                <td>
+                                    <div class="btn-group-sm">
+                                        <a class="btn btn-sm btn-outline-warning" asp-action="Edit" asp-route-id="@m.Id">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <form asp-action="Delete" method="post" style="display:inline;" id="deleteForm">
+                                            <input type="hidden" name="id" value="@m.Id" id="deleteId" />
+                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="showDeleteModal(@m.Id)">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+<br />
+
+<!-- Silme Modali -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Kaydı Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
+                <i class="bi bi-patch-exclamation" style="font-size: 4rem; color: cornflowerblue;"></i>
+                Bu kaydı silmek istediğinizden emin misiniz?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" onclick="submitDeleteForm()">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+@* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
+
+<script>
+    $(document).ready(function () {
+        $('#exchangeRateTable').DataTable({
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json"
+
+            },
+            lengthMenu: [5, 10, 25, 50, 100],
+
+        });
+
+    });
+</script>
+<script>
+    function showDeleteModal(id) {
+        document.getElementById('deleteId').value = id; // Formdaki ID'yi güncelle
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        deleteModal.show(); // Modalı aç
+    }
+
+    function submitDeleteForm() {
+        document.getElementById('deleteForm').submit(); // Formu gönder
+    }
+</script>
+
+

@@ -1,5 +1,5 @@
-﻿using BankApp.Database.Repositories.ProcessTypeRepo;
-using BankApp.Database.Repositories.TransactionTypeRepo;
+﻿using BankApp.Database.Repositories.CurrencyRepo;
+using BankApp.Database.Repositories.ExchangeRateRepo;
 using BankApp.Database.Validators;
 using BankApp.Domain.Entities;
 using FluentValidation;
@@ -9,23 +9,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BankApp.WebUI.Controllers
 {
-    public class TransactionTypeController : Controller
+    public class ExchangeRateController : Controller
     {
-        private readonly ITransactionTypeRepository _repo;
-        private readonly IProcessTypeRepository _processTypeRepo;
+        private readonly IExchangeRateRepository _repo;
+        private readonly ICurrencyRepository _currencyRepo;
+        ExchangeRateValidator validationRules = new ExchangeRateValidator();
 
-        TransacitonTypeValidator validationRules = new TransacitonTypeValidator();
-
-        public TransactionTypeController(ITransactionTypeRepository repo, IProcessTypeRepository processTypeRepo)
+        public ExchangeRateController(IExchangeRateRepository repo, ICurrencyRepository currencyRepo)
         {
             _repo = repo;
-            _processTypeRepo = processTypeRepo;
+            _currencyRepo = currencyRepo;
         }
 
-  
         public async Task<IActionResult> Index()
         {
-            var model = await _repo.GetAllWithProcessTypeAsync();
+            var model = await _repo.GetAllWithCurrencyAsync();
             return View(model.Data);
         }
         public IActionResult Create()
@@ -35,9 +33,9 @@ namespace BankApp.WebUI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name", "ProcessTypeId")] TransactionType transactionType)
+        public async Task<IActionResult> Create([Bind("Name", "CurrentDate","Rate","CurrencyId")] ExchangeRate exchangeRate)
         {
-            var validationResult = validationRules.Validate(transactionType);
+            var validationResult = validationRules.Validate(exchangeRate);
             validationResult.AddToModelState(ModelState, null);
             if (!ModelState.IsValid)
             {
@@ -45,18 +43,18 @@ namespace BankApp.WebUI.Controllers
                 ViewBag.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
                 return View();
             }
-            await _repo.AddAsync(transactionType);
+            await _repo.AddAsync(exchangeRate);
             return RedirectToAction(nameof(Index));
         }
-        private void PopulateSelectLists(int? selectedProcessType = null)
+        private void PopulateSelectLists(int? selectedCurrency = null)
         {
-            var processTypes = _processTypeRepo.GetAllAsync();
+            var processTypes = _currencyRepo.GetAllAsync();
 
-            ViewBag.ProcessTypes = processTypes.Result.Data.Select(x => new SelectListItem
+            ViewBag.Currencies = processTypes.Result.Data.Select(x => new SelectListItem
             {
                 Text = x.FullName,
                 Value = x.Id.ToString(),
-                Selected = selectedProcessType == x.Id
+                Selected = selectedCurrency == x.Id
             }).ToList();
         }
         [HttpPost]
@@ -72,6 +70,7 @@ namespace BankApp.WebUI.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
         public async Task<IActionResult> Edit(int id)
         {
 
@@ -82,21 +81,21 @@ namespace BankApp.WebUI.Controllers
                 ViewBag.Errors = response.Errors;
                 return NotFound();
             }
-            PopulateSelectLists(response.Data.ProcessTypeId);
+            PopulateSelectLists(response.Data.CurrencyId);
             return View(response.Data);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id, Name, ProcessTypeId")] TransactionType transactionType)
+        public IActionResult Edit(int id, [Bind("Id, Name, CurrentDate, Rate, CurrencyId")] ExchangeRate exchangeRate)
         {
-            if (id != transactionType.Id)
+            if (id != exchangeRate.Id)
             {
                 return BadRequest();
             }
 
-            var validationResult = validationRules.Validate(transactionType);
+            var validationResult = validationRules.Validate(exchangeRate);
 
             if (!validationResult.IsValid)
             {
@@ -105,11 +104,11 @@ namespace BankApp.WebUI.Controllers
                     ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
                     ViewBag.Errors = error.ErrorMessage;
                 }
-                PopulateSelectLists(transactionType.ProcessTypeId);
-                return View(transactionType);
+                PopulateSelectLists(exchangeRate.CurrencyId);
+                return View(exchangeRate);
             }
 
-            var stat = _repo.Update(id, transactionType);
+            var stat = _repo.Update(id, exchangeRate);
             if (!stat.IsSuccess)
             {
                 return NotFound();

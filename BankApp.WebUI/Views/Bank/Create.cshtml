@@ -4,7 +4,7 @@
 
     
 }
-@if (ViewBag.Errors != null && ((List<string>)ViewBag.Errors).Any())
+@* @if (ViewBag.Errors != null && ((List<string>)ViewBag.Errors).Any())
 {
     <div class="alert alert-danger">
         <ul>
@@ -16,13 +16,13 @@
         </ul>
     </div>
 }
-
+ *@
 <div class="card shadow-sm mx-auto">
     <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
         <h6>Yeni Banka Yarat</h6>
     </div>
     <div class="card-body">
-        <form asp-action="Create" method="post" method="post" enctype="multipart/form-data">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <div class="input-group input-group-sm mb-3">
                     <span class="input-group-text" style="width:85px">Banka Adı</span>
@@ -45,15 +45,14 @@
                     </div>
                 </div>
             </div>
-
-
         </form>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     </div>
 </div>
 
 
-@section Scripts {
+@* @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
+} *@

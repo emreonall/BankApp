@@ -8,6 +8,7 @@ using BankApp.Database.Repositories.CompanyRepo;
 using BankApp.Database.Repositories.CurrencyRepo;
 using BankApp.Database.Repositories.ExchangeRateRepo;
 using BankApp.Database.Repositories.ProcessTypeRepo;
+using BankApp.Database.Repositories.TransactionRepo;
 using BankApp.Database.Repositories.TransactionTypeRepo;
 using BankApp.Database.Validators;
 using BankApp.Domain.Entities;
@@ -42,7 +43,7 @@ builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
 builder.Services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
 builder.Services.AddScoped<ITransactionTypeRepository, TransactionTypeRepository>();
 builder.Services.AddScoped<IExchangeRateRepository, ExchangeRateRepository>();
-
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddScoped<ICurrencyService, CurrencyManager>();
 builder.Services.AddScoped<ICompanyService, CompanyManager>();

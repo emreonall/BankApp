@@ -28,7 +28,9 @@ builder.Services.AddDbContext<AppDbContext>();
 
 
 //builder.Services.AddAutoMapper(typeof(BankApp.Database.MapProfiles).Assembly);  //
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+//builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 

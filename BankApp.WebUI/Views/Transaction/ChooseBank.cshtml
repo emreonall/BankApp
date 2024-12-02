@@ -1,0 +1,70 @@
+﻿@model List<BankListVM>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .card-img-top {
+        height: 200px; /* Sabit yükseklik */
+        object-fit: cover; /* Resmi kırparak sığdırır */
+        width: 100%; /* Genişliği kartın genişliği kadar yapar */
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Hover ile hafif yukarı kaldır */
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Daha güçlü gölge */
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Mavi buton */
+        border-color: #007bff;
+    }
+
+    .btn-outline-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+    }
+
+        .btn-primary:hover,
+        .btn-outline-secondary:hover {
+            filter: brightness(0.9); /* Hover efektiyle koyulaştır */
+        }
+</style>
+
+<div class="container mt-4">
+    <div class="row row-cols-1 row-cols-md-4 g-sm-3">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card shadow-md border-1 h-100">
+                    @{
+                        var fileName = System.IO.Path.GetFileName(item.IconUrl);
+                    }
+                    <img src="~/uploads/@fileName" alt="Bank Icon" class="card-img-top">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@item.Name</h5>
+                    @*    @foreach (var bal in item.CompnayBalances)
+                        {
+                            bal.
+                        } *@
+                        <p class="card-text text-muted">Daha fazla bilgi için tıklayın</p>
+                        <a href="/Bank/Details/@item.Id" class="btn btn-primary">Detaylar</a>
+                        <a href="/Bank/Edit/@item.Id" class="btn btn-outline-secondary">Düzenle</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

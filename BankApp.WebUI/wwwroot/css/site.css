@@ -20,3 +20,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+body {
+    background-color: #f8f9fa;  Hafif gri ton 
+}
+
+/*body {
+    background: linear-gradient(120deg, #e0f7fa, #ffffff);*/ /* Hafif mavi ve beyaz geçiþ */
+/*}*/

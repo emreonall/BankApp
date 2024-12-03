@@ -1,4 +1,4 @@
-﻿@model List<BankListVM>
+﻿@model List<BankTransactionsViewModel>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -47,21 +47,34 @@
     <div class="row row-cols-1 row-cols-md-4 g-sm-3">
         @foreach (var item in Model)
         {
+
             <div class="col">
                 <div class="card shadow-md border-1 h-100">
                     @{
-                        var fileName = System.IO.Path.GetFileName(item.IconUrl);
+                        var fileName = System.IO.Path.GetFileName(item.IconURL);
                     }
                     <img src="~/uploads/@fileName" alt="Bank Icon" class="card-img-top">
                     <div class="card-body text-center">
                         <h5 class="card-title">@item.Name</h5>
-                    @*    @foreach (var bal in item.CompnayBalances)
-                        {
-                            bal.
-                        } *@
-                        <p class="card-text text-muted">Daha fazla bilgi için tıklayın</p>
-                        <a href="/Bank/Details/@item.Id" class="btn btn-primary">Detaylar</a>
-                        <a href="/Bank/Edit/@item.Id" class="btn btn-outline-secondary">Düzenle</a>
+                        <table class="table table-borderless table">
+                            <tbody>
+                                @foreach (var bal in item.CurrencyTotals)
+                                {
+                                    {
+                                        <tr>
+                                            <td>@bal.CurrencyName</td>
+                                            <td>@bal.TotalAmount.ToString("N2")</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+
+
+                       
+                        <a href="/Bank/Details/@item.BankId" class="btn btn-primary">Detaylar</a>
+                        <a href="/Bank/Edit/@item.BankId" class="btn btn-outline-secondary">Düzenle</a>
                     </div>
                 </div>
             </div>

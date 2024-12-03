@@ -8,7 +8,7 @@ namespace BankApp.Database.MapProfiles.Bank
     {
         public BankMapProfile()
         {
-            CreateMap<BankApp.Domain.Entities.Bank, BankListVM>().ForMember(des=>des.Id,opt=>opt.MapFrom(src=>src.Id));
+            //CreateMap<BankApp.Domain.Entities.Bank, BankListVM>().ForMember(des=>des.Id,opt=>opt.MapFrom(src=>src.Id));
         }
     }
 }

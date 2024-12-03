@@ -4,7 +4,6 @@ using BankApp.Database.Repositories.CompanyRepo;
 using BankApp.Database.Repositories.CurrencyRepo;
 using BankApp.Database.Repositories.TransactionRepo;
 using BankApp.Database.Repositories.TransactionTypeRepo;
-using BankApp.Database.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.WebUI.Controllers
@@ -30,15 +29,9 @@ namespace BankApp.WebUI.Controllers
 
         public async Task<IActionResult> ChooseBank()
         {
-            var banks = await _bankRepository.GetAllWithTransactionsAsync();
-
-            List<BankListVM> model = _mapper.Map<List<BankListVM>>(banks.Data);
-            foreach (var itemBank in model)
-            {
-                var balances = itemBank.Transactions.Where(b => b.Id == itemBank.Id).GroupBy(g => g.CurrencyId).Select(group=>group.Sum(transaction=>transaction.Amount));
-            }
-
-            return View(model);
+            var model = await _bankRepository.GetAllBalanceSummaryWithCurrencyAsync();
+            
+            return View(model.Data);
         }
     }
 }

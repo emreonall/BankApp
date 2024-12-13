@@ -25,7 +25,7 @@ namespace BankApp.WebUI.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var model = await _repo.GetAllAsync();
+            var model = await _repo.GetAllBankAsync();
             if (model.IsSuccess == false)
             {
                 return NotFound();
@@ -62,7 +62,7 @@ namespace BankApp.WebUI.Controllers
                     // Tam yolu IconUrl alanına atama
                     bank.IconUrl = filePath;
                 }
-                await _repo.AddAsync(bank);
+                await _repo.CreateBank(bank);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -73,7 +73,7 @@ namespace BankApp.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var model= await _repo.Delete(id);
+            var model= await _repo.DeleteBank(id);
             if (model.IsSuccess == false)
             {
                 return RedirectToAction(nameof(Index));
@@ -82,7 +82,7 @@ namespace BankApp.WebUI.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var bank = await _repo.GetByIdAsync(id);
+            var bank = await _repo.GetBankByIdAsync(id);
             if (bank.Data == null || bank.IsSuccess==false)
             {
                 return NotFound();
@@ -99,7 +99,7 @@ namespace BankApp.WebUI.Controllers
             {
                 return BadRequest();
             }
-            var existingBank = await _repo.GetByIdAsync(id);
+            var existingBank = await _repo.GetBankByIdAsync(id);
             if (existingBank == null)
             {
                 return NotFound();
@@ -129,7 +129,7 @@ namespace BankApp.WebUI.Controllers
                         existingBank.Data.IconUrl = filePath;
                     }
 
-                    _repo.Update(id, existingBank.Data);
+                    _repo.UpdateBank(id, existingBank.Data);
 
                 }
                 catch (DbUpdateConcurrencyException)

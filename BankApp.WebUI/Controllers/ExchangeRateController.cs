@@ -48,7 +48,7 @@ namespace BankApp.WebUI.Controllers
         }
         private void PopulateSelectLists(int? selectedCurrency = null)
         {
-            var processTypes = _currencyRepo.GetAllAsync();
+            var processTypes = _currencyRepo.GetAllCurrencyAsync();
 
             ViewBag.Currencies = processTypes.Result.Data.Select(x => new SelectListItem
             {

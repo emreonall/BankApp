@@ -18,7 +18,7 @@ namespace BankApp.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = await _repo.GetAllAsync();
+            var model = await _repo.GetAllCompanyAsync();
             if (model.IsSuccess == false)
             {
                 return NotFound();
@@ -39,7 +39,7 @@ namespace BankApp.WebUI.Controllers
 
             if (ModelState.IsValid)
             {
-                await _repo.AddAsync(company);
+                await _repo.CreateCompany(company);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -51,12 +51,12 @@ namespace BankApp.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _repo.Delete(id);
+            await _repo.DeleteCompany(id);
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var comp = await _repo.GetByIdAsync(id);
+            var comp = await _repo.GetCompanyByIdAsync(id);
             if (comp.Data == null || comp.IsSuccess == false)
             {
                 return NotFound();
@@ -75,7 +75,7 @@ namespace BankApp.WebUI.Controllers
             }
            
 
-            var existingCompany = await _repo.GetByIdAsync(id);
+            var existingCompany = await _repo.GetCompanyByIdAsync(id);
             if (existingCompany.Data == null || existingCompany.IsSuccess == false)
             {
                 return NotFound();
@@ -92,7 +92,7 @@ namespace BankApp.WebUI.Controllers
                 {
                     existingCompany.Data.CompanyName = company.CompanyName;
                     existingCompany.Data.CompanyCode = company.CompanyCode;
-                    _repo.Update(id, existingCompany.Data);
+                    _repo.UpdateCompany(id, existingCompany.Data);
 
                 }
                 catch (DbUpdateConcurrencyException)

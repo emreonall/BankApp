@@ -73,7 +73,7 @@
 
 
                        
-                        <a href="/Bank/Details/@item.BankId" class="btn btn-primary">Detaylar</a>
+                        <a asp-controller="Transaction" asp-action="ListTransaction" asp-route-id="@item.BankId" class="btn btn-primary">Detaylar</a>
                         <a href="/Bank/Edit/@item.BankId" class="btn btn-outline-secondary">Düzenle</a>
                     </div>
                 </div>

@@ -19,7 +19,7 @@ namespace BankApp.WebUI.Controllers
         CurrencyValidator validator = new CurrencyValidator();
         public async Task<IActionResult> Index()
         {
-            var model = await _repo.GetAllAsync();
+            var model = await _repo.GetAllCurrencyAsync();
            
             return View(model.Data);
         }
@@ -43,7 +43,7 @@ namespace BankApp.WebUI.Controllers
                 return View();
             }
 
-            await _repo.AddAsync(currency);
+            await _repo.CreateCurrency(currency);
             return RedirectToAction(nameof(Index));
 
             
@@ -55,7 +55,7 @@ namespace BankApp.WebUI.Controllers
         public async Task<IActionResult> Delete(int id)
         {
 
-            var response = await _repo.Delete(id);
+            var response = await _repo.DeleteCurrency(id);
             if (!response.IsSuccess)
             {
                 ViewBag.Errors = response.Errors;
@@ -66,7 +66,7 @@ namespace BankApp.WebUI.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 
-            var response = await _repo.GetByIdAsync(id);
+            var response = await _repo.GetCurrencyByIdAsync(id);
             
             if (response.Data == null || response.IsSuccess == false)
             {
@@ -98,7 +98,7 @@ namespace BankApp.WebUI.Controllers
                 return View(currency);
             }
 
-            var stat =  _repo.Update(id, currency);
+            var stat =  _repo.UpdateCurrency(id, currency);
             if (!stat.IsSuccess)
             {
                 return NotFound();

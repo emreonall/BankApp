@@ -22,7 +22,7 @@ namespace BankApp.Database.Repositories
             {
                 await _dbSet.AddAsync(entity);
                 await _context.SaveChangesAsync();
-                return Result<T>.Success(entity, "Kayıt başarıyla eklendi.");
+                return Result<T>.Success(entity, $"Kayıt başarıyla eklendi. ID numarası:[{entity.Id}]");
             }
             catch (Exception ex)
             {

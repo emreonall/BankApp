@@ -1,0 +1,96 @@
+﻿@model Transaction
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card shadow-sm mx-auto">
+    <div class="card-header d-flex justify-content-between align-items-center shadow-sm">
+        <h6>Banka Hareket Girişi</h6>
+    </div>
+    <div class="card-body">
+
+        <form asp-antiforgery="true" asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" style="width:140px">Tarih</span>
+                        <input asp-for="CurrentDate" class="form-control" type="date" autocomplete="off" />
+                        @Html.ValidationMessageFor(model => model.CurrentDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group form-select-sm mb-3">
+                        <span class="input-group-text" style="width:140px">Şirket</span>
+                        <select id="CompanyName" asp-for="CompanyId" class="form-control" asp-items="ViewBag.Companies">
+                            <option value="">Şirket seçiniz...</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="input-group form-select-sm mb-3">
+                        <span class="input-group-text" style="width:140px">İşlem Türü</span>
+                        <select id="FullName" asp-for="TransactionTypeId" class="form-control" asp-items="ViewBag.TransactionTypes">
+                            <option value="">İşlem türü seçiniz...</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.TransactionTypeId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group form-select-sm mb-3">
+                        <span class="input-group-text" style="width:140px">İşlem Para Birimi</span>
+                        <select id="ShortName" asp-for="CurrencyId" class="form-control" asp-items="ViewBag.Currencies">
+                            <option value="">Para Birimi seçiniz...</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model.CurrencyId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" style="width:140px">Kur</span>
+                        <input asp-for="ExchRate" class="form-control" type="number" step="0.0001" autocomplete="off" />
+                        @Html.ValidationMessageFor(model => model.ExchRate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" style="width:140px">İşlem Tutarı</span>
+                        <input asp-for="Amount" class="form-control" type="number" step="0.01" autocomplete="off" />
+                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" style="width:140px">İşlem Tutarı TL</span>
+                        <input asp-for="AmountInPublicCurrency" class="form-control" type="number" step="0.01" autocomplete="off" />
+                        @Html.ValidationMessageFor(model => model.AmountInPublicCurrency, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" style="width:140px">Açıklama</span>
+                        <input asp-for="Description" class="form-control" type="number" step="0.01" autocomplete="off" />
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="card-footer shadow-sm d-flex justify-content-end">
+                    <div class="form-group">
+                        <div class="btn-group">
+                            <input type="submit" value="Kaydet" class="btn btn-primary" />
+                            <a class="btn btn-secondary" asp-action="Index">Vazgeç</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    </div>
+</div>

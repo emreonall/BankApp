@@ -1,6 +1,3 @@
-using BankApp.Application.Services;
-using BankApp.Application.Services.CompanyService;
-using BankApp.Application.Services.CurrencyService;
 using BankApp.Database.Context;
 using BankApp.Database.Repositories;
 using BankApp.Database.Repositories.BankRepo;
@@ -14,7 +11,6 @@ using BankApp.Database.Validators;
 using BankApp.Domain.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,9 +30,6 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
-// Servisler
-builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
-
 
 
 builder.Services.AddScoped<IBankRepository, BankRepository>();
@@ -46,9 +39,6 @@ builder.Services.AddScoped<IProcessTypeRepository, ProcessTypeRepository>();
 builder.Services.AddScoped<ITransactionTypeRepository, TransactionTypeRepository>();
 builder.Services.AddScoped<IExchangeRateRepository, ExchangeRateRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-
-builder.Services.AddScoped<ICurrencyService, CurrencyManager>();
-builder.Services.AddScoped<ICompanyService, CompanyManager>();
 
 builder.Services.AddScoped<IValidator<Currency>, CurrencyValidator>();
 builder.Services.AddScoped<IValidator<Company>, CompanyValidator>();

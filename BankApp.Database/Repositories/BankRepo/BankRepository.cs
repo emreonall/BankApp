@@ -26,7 +26,7 @@ namespace BankApp.Database.Repositories.BankRepo
 
         public async Task<Result<Bank>> DeleteBank(int id)
         {
-            return await _repo.Delete(id);
+            return await _repo.DeleteAsync(id);
         }
 
         public Task<Result<List<Bank>>> GetAllBankAsync(Expression<Func<Bank, bool>>? filter = null)

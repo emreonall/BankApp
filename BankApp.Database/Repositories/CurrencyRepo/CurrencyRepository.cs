@@ -22,7 +22,7 @@ namespace BankApp.Database.Repositories.CurrencyRepo
 
         public async Task<Result<Currency>> DeleteCurrency(int id)
         {
-            return await _repo.Delete(id);
+            return await _repo.DeleteAsync(id);
         }
 
         public async Task<Result<List<Currency>>> GetAllCurrencyAsync(Expression<Func<Currency, bool>>? filter = null)

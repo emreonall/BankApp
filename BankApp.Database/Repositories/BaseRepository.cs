@@ -30,7 +30,7 @@ namespace BankApp.Database.Repositories
             }
         }
 
-        public async Task<Result<T>> Delete(int id)
+        public async Task<Result<T>> DeleteAsync(int id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity == null)
@@ -50,7 +50,7 @@ namespace BankApp.Database.Repositories
             }
         }
 
-        public async Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>> filter = null)
+        public async Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>>? filter = null)
         {
             Result<List<T>> sonuc = new();
             if (filter == null)
@@ -110,7 +110,7 @@ namespace BankApp.Database.Repositories
                 try
                 {
                     _dbSet.Update(entity);
-                    _context.SaveChanges();
+                    _context.SaveChangesAsync();
                     response = Result<T>.Success(entity, "Kayıt başarıyla güncellendi.");
                 }
                 catch (Exception ex)

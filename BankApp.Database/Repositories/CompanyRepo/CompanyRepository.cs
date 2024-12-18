@@ -22,7 +22,7 @@ namespace BankApp.Database.Repositories.CompanyRepo
 
         public async Task<Result<Company>> DeleteCompany(int id)
         {
-            return await _repo.Delete(id);
+            return await _repo.DeleteAsync(id);
         }
 
         public async Task<Result<List<Company>>> GetAllCompanyAsync(Expression<Func<Company, bool>>? filter = null)

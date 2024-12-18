@@ -2,7 +2,6 @@
 using BankApp.Database.Repositories.TransactionTypeRepo;
 using BankApp.Database.Validators;
 using BankApp.Domain.Entities;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -45,12 +44,12 @@ namespace BankApp.WebUI.Controllers
                 ViewBag.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
                 return View();
             }
-            await _repo.AddAsync(transactionType);
+            await _repo.CreateTransactionType(transactionType);
             return RedirectToAction(nameof(Index));
         }
         private void PopulateSelectLists(int? selectedProcessType = null)
         {
-            var processTypes = _processTypeRepo.GetAllAsync();
+            var processTypes = _processTypeRepo.GetAllProcessTypeAsync();
 
             ViewBag.ProcessTypes = processTypes.Result.Data.Select(x => new SelectListItem
             {
@@ -63,7 +62,7 @@ namespace BankApp.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _repo.Delete(id);
+            var response = await _repo.DeleteTransactionTypeAsync(id);
             if (!response.IsSuccess)
             {
                 ViewBag.Errors = response.Errors;
@@ -75,7 +74,7 @@ namespace BankApp.WebUI.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 
-            var response = await _repo.GetByIdAsync(id);
+            var response = await _repo.GetTransactionTypeByIdAsync(id);
 
             if (response.Data == null || response.IsSuccess == false)
             {
@@ -109,7 +108,7 @@ namespace BankApp.WebUI.Controllers
                 return View(transactionType);
             }
 
-            var stat = _repo.Update(id, transactionType);
+            var stat = _repo.UpdateTransactionType(id, transactionType);
             if (!stat.IsSuccess)
             {
                 return NotFound();

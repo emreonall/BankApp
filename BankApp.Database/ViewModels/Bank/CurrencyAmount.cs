@@ -2,7 +2,7 @@
 {
     public class CurrencyAmount
     {
-        public string CurrencyName { get; set; } // Currency tablosundan gelen Name alanı
+        public string? CurrencyName { get; set; } // Currency tablosundan gelen Name alanı
         public decimal TotalAmount { get; set; }
     }
 }

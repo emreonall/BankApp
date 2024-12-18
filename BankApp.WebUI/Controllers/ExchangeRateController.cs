@@ -43,7 +43,7 @@ namespace BankApp.WebUI.Controllers
                 ViewBag.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
                 return View();
             }
-            await _repo.AddAsync(exchangeRate);
+            await _repo.CreateExchRate(exchangeRate);
             return RedirectToAction(nameof(Index));
         }
         private void PopulateSelectLists(int? selectedCurrency = null)
@@ -61,7 +61,7 @@ namespace BankApp.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _repo.Delete(id);
+            var response = await _repo.DeleteExchRate(id);
             if (!response.IsSuccess)
             {
                 ViewBag.Errors = response.Errors;
@@ -74,7 +74,7 @@ namespace BankApp.WebUI.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 
-            var response = await _repo.GetByIdAsync(id);
+            var response = await _repo.GetExchRateByIdAsync(id);
 
             if (response.Data == null || response.IsSuccess == false)
             {
@@ -108,7 +108,7 @@ namespace BankApp.WebUI.Controllers
                 return View(exchangeRate);
             }
 
-            var stat = _repo.Update(id, exchangeRate);
+            var stat = _repo.UpdateExchRate(id, exchangeRate);
             if (!stat.IsSuccess)
             {
                 return NotFound();

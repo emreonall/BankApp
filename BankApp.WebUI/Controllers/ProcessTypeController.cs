@@ -4,7 +4,6 @@ using BankApp.Domain.Entities;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel.DataAnnotations;
 
 namespace BankApp.WebUI.Controllers
 {
@@ -20,7 +19,7 @@ namespace BankApp.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = await _repo.GetAllAsync();
+            var model = await _repo.GetAllProcessTypeAsync();
             return View(model.Data);
         }
         public IActionResult Create()
@@ -40,10 +39,10 @@ namespace BankApp.WebUI.Controllers
                 ViewBag.Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
                 return View();
             }
-            await _repo.AddAsync(processType);
+            await _repo.CreateProcessType(processType);
             return RedirectToAction(nameof(Index));
         }
-        private void PopulateSelectLists(string selectedSymbol = null, int? selectedMultiplier = null)
+        private void PopulateSelectLists(string? selectedSymbol = null, int? selectedMultiplier = null)
         {
             ViewBag.SymbolList = new List<SelectListItem>
             {
@@ -62,7 +61,7 @@ namespace BankApp.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var response = await _repo.Delete(id);
+            var response = await _repo.DeleteProcessType(id);
             if (!response.IsSuccess)
             {
                 ViewBag.Errors = response.Errors;
@@ -74,7 +73,7 @@ namespace BankApp.WebUI.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 
-            var response = await _repo.GetByIdAsync(id);
+            var response = await _repo.GetProcessTypeByIdAsync(id);
 
             if (response.Data == null || response.IsSuccess == false)
             {
@@ -108,7 +107,7 @@ namespace BankApp.WebUI.Controllers
                 return View(processType);
             }
 
-            var stat = _repo.Update(id, processType);
+            var stat = _repo.UpdateProcessType(id, processType);
             if (!stat.IsSuccess)
             {
                 return NotFound();

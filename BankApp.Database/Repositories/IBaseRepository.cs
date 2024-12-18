@@ -9,7 +9,7 @@ namespace BankApp.Database.Repositories
         Task<Result<List<T>>> GetAllAsync(Expression<Func<T, bool>>? filter = null);
         Task<Result<T>> AddAsync(T entity);
         Result<T> Update(int id, T entity);
-        Task<Result<T>> Delete(int id);
+        Task<Result<T>> DeleteAsync(int id);
         Task<Result<T>> GetQueryAsync(Expression<Func<T, bool>>? filter = null);
 
     }
